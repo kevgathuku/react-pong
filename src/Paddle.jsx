@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Rect } from "react-konva";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
+import { movePaddleDown } from "./store/actions";
 
 class Paddle extends Component {
   static propTypes = {
-    player: PropTypes.object.isRequired
+    dispatch: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
+    keysPressed: PropTypes.object
   };
 
   constructor(...props) {
@@ -14,34 +19,31 @@ class Paddle extends Component {
     };
   }
 
-  onKeyPress = event => {
-    const {
-      player: { position }
-    } = this.props;
-    console.log("event", event);
-
-    // if (position === "left") {}
-  };
-
   render() {
     const {
-      player: { x, y, position, width, height }
+      player: { x, y, position, width, height },
+      keysPressed,
+      dispatch
     } = this.props;
-    // let offsetX = position === "left" ? 20 : undefined;
-    // offsetX = position === "right" ? (-20 - this.state.width) : undefined;
     if (!position) return null;
 
+    if (position === "left") {
+      if (keysPressed["ArrowDown"]) {
+        dispatch(movePaddleDown(position, 10));
+      }
+    }
+
     return (
-      <Rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        fill={this.state.color}
-        onKeyPress={this.onKeyPress}
-      />
+      <Rect x={x} y={y} width={width} height={height} fill={this.state.color} />
     );
   }
 }
 
-export default Paddle;
+const mapStateToProps = state => {
+  const { keysPressed } = state;
+  return { keysPressed };
+};
+
+const VisiblePaddle = connect(mapStateToProps)(Paddle);
+
+export default VisiblePaddle;

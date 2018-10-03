@@ -1,3 +1,5 @@
+import { ActionTypes } from "./actions";
+
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 700;
 
@@ -30,15 +32,41 @@ const initialState = {
   gameWidth: GAME_WIDTH,
   gameHeight: GAME_HEIGHT,
   players: [paddleLeft, paddleRight],
-  ball: {}
+  ball: {},
+  keysPressed: {}
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "START_ONE_PLAYER":
+  const { type, payload } = action;
+  switch (type) {
+    case ActionTypes.START_ONE_PLAYER:
       return Object.assign({}, state, { mode: "playing" });
-    case "START_TWO_PLAYER":
+    case ActionTypes.START_TWO_PLAYER:
       return Object.assign({}, state, { mode: "playing" });
+    case ActionTypes.KEYPRESS:
+      return Object.assign({}, state, {
+        keysPressed: {
+          ...state.keysPressed,
+          [payload]: true
+        }
+      });
+    case ActionTypes.KEY_UP:
+      return Object.assign({}, state, {
+        keysPressed: {
+          ...state.keysPressed,
+          [payload]: false
+        }
+      });
+    case ActionTypes.MOVE_PADDLE_DOWN:
+      const { position, velocity } = payload;
+      const updatedPlayers = state.players.map(player => {
+        if (player.position === position) {
+          player.y += velocity;
+        }
+        return player;
+      });
+
+      return Object.assign({}, state, { players: updatedPlayers });
     default:
       return state;
   }

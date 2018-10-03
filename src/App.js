@@ -3,15 +3,50 @@ import PropTypes from "prop-types";
 import { Layer, Rect, Stage } from "react-konva";
 import { connect } from "react-redux";
 
+import { keyPress, keyUp } from "./store/actions";
+
 import "./App.css";
 import Paddle from "./Paddle";
 
 class PongApp extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     players: PropTypes.array,
     gameWidth: PropTypes.number.isRequired,
     gameHeight: PropTypes.number.isRequired,
     boardColor: PropTypes.string.isRequired
+  };
+
+  componentDidMount() {
+    window.addEventListener("keydown", this.onKeyDown);
+    window.addEventListener("keyup", this.onKeyUp);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.onKeyDown);
+    window.removeEventListener("keyup", this.onKeyUp);
+  }
+
+  onKeyDown = event => {
+    const { dispatch } = this.props;
+
+    switch (event.keyCode) {
+      case 38: // Down Arrow
+      case 40: // Up Arrow
+      case 65: // a
+      case 90: // z
+        console.log("Key", event);
+        dispatch(keyPress(event.key));
+        break;
+      default:
+        return; // Do nothing
+    }
+  };
+
+  onKeyUp = event => {
+    const { dispatch } = this.props;
+
+    dispatch(keyUp(event.key));
   };
 
   render() {
@@ -57,8 +92,8 @@ class PongApp extends Component {
 }
 
 const mapStateToProps = state => {
-  const { players, gameWidth, gameHeight, boardColor } = state;
-  return { players, gameWidth, gameHeight, boardColor };
+  const { players, gameWidth, gameHeight, boardColor, keysPressed } = state;
+  return { players, gameWidth, gameHeight, boardColor, keysPressed };
 };
 
 const VisiblePongApp = connect(mapStateToProps)(PongApp);
