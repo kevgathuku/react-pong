@@ -1,25 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Layer, Rect, Stage } from "react-konva";
+import { connect } from "react-redux";
+
 import "./App.css";
 import Paddle from "./Paddle";
 
-class App extends Component {
-  constructor(...props) {
-    super(...props);
-    this.state = {
-      stageWidth: 800,
-      stageHeight: 700,
-      color: "#000000",
-      startX: 0,
-      startY: 0,
-      width: 800,
-      height: 700,
-      mode: null,
-    };
-  }
+class PongApp extends Component {
+  static propTypes = {
+    players: PropTypes.array,
+    gameWidth: PropTypes.number.isRequired,
+    gameHeight: PropTypes.number.isRequired,
+    boardColor: PropTypes.string.isRequired
+  };
 
   render() {
-    return <div className="App">
+    const { boardColor, players, gameWidth, gameHeight } = this.props;
+    return (
+      <div className="App">
         <div className="intro content">
           <h2>Pong</h2>
           <h3>Single Player Mode</h3>
@@ -28,29 +26,41 @@ class App extends Component {
             Start Single Player Mode
           </button>
           <h3>Two Player Mode</h3>
+          <p>Player 1: Move the left paddle up and down using keys A and Z</p>
           <p>
-            Player 1: Move the left paddle up and down using keys A and Z
+            Player 2: Move the right paddle up and down using the Up and Down
+            Arrows
           </p>
-          <p>
-            Player 2: Move the right paddle up and down using the Up and
-            Down Arrows
-          </p>
-          <button className="button is-primary">
-            Start Two Player Mode
-          </button>
-          <p/>
+          <button className="button is-primary">Start Two Player Mode</button>
+          <p />
           <p>The first player to reach a score of 10 wins the game</p>
           <h3>GOOD LUCK!</h3>
         </div>
-        <Stage width={this.state.stageWidth} height={this.state.stageHeight}>
+        <Stage width={gameWidth} height={gameHeight}>
           <Layer>
-            <Rect x={this.state.startX} y={this.state.startY} width={this.state.width} height={this.state.height} fill={this.state.color} shadowBlur={10} />
-            <Paddle position="left" startX={this.state.startX + 20} startY={this.state.startY + 50} />
-            <Paddle position="right" startX={this.state.startX + this.state.width - 20 - 20} startY={this.state.startY + 50} />
+            <Rect
+              x={0}
+              y={0}
+              width={gameWidth}
+              height={gameHeight}
+              fill={boardColor}
+              shadowBlur={10}
+            />
+            {players.map(player => (
+              <Paddle player={player} key={player.position} />
+            ))}
           </Layer>
         </Stage>
-      </div>;
+      </div>
+    );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  const { players, gameWidth, gameHeight, boardColor } = state;
+  return { players, gameWidth, gameHeight, boardColor };
+};
+
+const VisiblePongApp = connect(mapStateToProps)(PongApp);
+
+export default VisiblePongApp;
