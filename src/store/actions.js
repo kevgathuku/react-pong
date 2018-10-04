@@ -3,7 +3,7 @@ export const ActionTypes = {
   START_TWO_PLAYER: "START_TWO_PLAYER",
   KEYPRESS: "KEYPRESS",
   KEY_UP: "KEY_UP",
-  MOVE_PADDLE_DOWN: "MOVE_PADDLE_DOWN",
+  MOVE_PADDLE_Y: "MOVE_PADDLE_Y"
 };
 
 export const keyPress = (event = null) => ({
@@ -17,9 +17,12 @@ export const keyUp = (event = null) => ({
 });
 
 export const movePaddleDown = (position, velocity) => ({
-  type: ActionTypes.MOVE_PADDLE_DOWN,
-  payload: {
-    position,
-    velocity
-  }
+  type: ActionTypes.MOVE_PADDLE_Y,
+  payload: { position, velocity }
+});
+
+// Decrease the Y value
+export const movePaddleUp = (position, velocity) => ({
+  type: ActionTypes.MOVE_PADDLE_Y,
+  payload: { position, velocity: velocity * -1 }
 });

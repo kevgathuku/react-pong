@@ -3,7 +3,7 @@ import { Rect } from "react-konva";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { movePaddleDown } from "./store/actions";
+import { movePaddleDown, movePaddleUp } from "./store/actions";
 
 class Paddle extends Component {
   static propTypes = {
@@ -30,6 +30,9 @@ class Paddle extends Component {
     if (position === "left") {
       if (keysPressed["ArrowDown"]) {
         dispatch(movePaddleDown(position, 10));
+      }
+      if (keysPressed["ArrowUp"]) {
+        dispatch(movePaddleUp(position, 10));
       }
     }
 

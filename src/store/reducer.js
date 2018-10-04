@@ -57,11 +57,18 @@ const reducer = (state = initialState, action) => {
           [payload]: false
         }
       });
-    case ActionTypes.MOVE_PADDLE_DOWN:
+    case ActionTypes.MOVE_PADDLE_Y:
       const { position, velocity } = payload;
       const updatedPlayers = state.players.map(player => {
         if (player.position === position) {
           player.y += velocity;
+          // Top of the board
+          if (player.y < 0) {
+            player.y = 0;
+          } // Bottom of the board
+          else if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
+            player.y = GAME_HEIGHT - PADDLE_HEIGHT;
+          }
         }
         return player;
       });
