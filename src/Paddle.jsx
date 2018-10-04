@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { movePaddleDown, movePaddleUp } from "./store/actions";
+import { PADDLE_SPEED } from "./store/reducer";
 
 class Paddle extends Component {
   static propTypes = {
@@ -29,10 +30,10 @@ class Paddle extends Component {
 
     if (position === "left") {
       if (keysPressed["ArrowDown"]) {
-        dispatch(movePaddleDown(position, 10));
+        dispatch(movePaddleDown(position, PADDLE_SPEED));
       }
       if (keysPressed["ArrowUp"]) {
-        dispatch(movePaddleUp(position, 10));
+        dispatch(movePaddleUp(position, PADDLE_SPEED));
       }
     }
 

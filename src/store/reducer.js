@@ -9,6 +9,8 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_OFFSET_X = 20;
 const PADDLE_OFFSET_Y = 50;
 
+export const PADDLE_SPEED = 20;
+
 const paddleLeft = {
   controller: "human",
   position: "left",
