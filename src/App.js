@@ -52,14 +52,9 @@ class PongApp extends Component {
 		return (
 			<div className="App">
 				<div className="intro content">
-					<h2>Pong</h2>
-					<h3>Single Player Mode</h3>
-					<p>
-						Use keys W and S to move the left paddle up and down respectively
-					</p>
-					<button className="button is-primary">
-						Start Single Player Mode
-					</button>
+					<h2>PONG</h2>
+					<p>Use keys W and S to move the left paddle up and down</p>
+					<button className="button is-primary">START</button>
 					<p />
 					<p>The first player to reach a score of 5 wins the game</p>
 					<h3>GOOD LUCK!</h3>
