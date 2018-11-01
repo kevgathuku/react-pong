@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Layer, Rect, Stage } from 'react-konva';
+import { Circle, Layer, Rect, Stage } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { keyPress, keyUp } from './store/actions';
@@ -48,18 +48,15 @@ class PongApp extends Component {
 	};
 
 	render() {
-		const {
-			boardColor,
-      players,
-			gameWidth,
-			gameHeight,
-		} = this.props;
+		const { boardColor, players, gameWidth, gameHeight } = this.props;
 		return (
 			<div className="App">
 				<div className="intro content">
 					<h2>Pong</h2>
 					<h3>Single Player Mode</h3>
-					<p>Use keys W and S to move the left paddle up and down respectively</p>
+					<p>
+						Use keys W and S to move the left paddle up and down respectively
+					</p>
 					<button className="button is-primary">
 						Start Single Player Mode
 					</button>
@@ -77,10 +74,15 @@ class PongApp extends Component {
 							fill={boardColor}
 							shadowBlur={10}
 						/>
-            {players.map(player => (
-              <Paddle player={player} key={player.position} />
-            ))}
-
+						{players.map(player => (
+							<Paddle player={player} key={player.position} />
+						))}
+						<Circle
+							x={gameWidth / 2}
+							y={gameHeight / 2}
+							fill="#00FFFF"
+							radius={10}
+						/>
 					</Layer>
 				</Stage>
 			</div>
