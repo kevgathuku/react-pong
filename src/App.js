@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Circle, Layer, Rect, Stage } from 'react-konva';
+import { Circle, Layer, Rect, Stage, Text, Line } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { keyPress, keyUp } from './store/actions';
@@ -25,6 +25,13 @@ class PongApp extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.onKeyDown);
 		window.removeEventListener('keyup', this.onKeyUp);
+	}
+
+	constructor(props) {
+		super(props);
+
+		this.middleX = props.gameWidth / 2;
+		this.middleY = props.gameHeight / 2;
 	}
 
 	onKeyDown = event => {
@@ -72,11 +79,41 @@ class PongApp extends Component {
 						{players.map(player => (
 							<Paddle player={player} key={player.position} />
 						))}
+						<Line
+							dash={
+								// dashed stroke 15px long and 10 px apart
+								[15, 10]
+							}
+							x={this.middleX}
+							y={0}
+							points={[0, 0, 0, gameHeight]}
+							stroke="white"
+							width={5}
+							height={gameHeight}
+						/>
 						<Circle
 							x={gameWidth / 2}
 							y={gameHeight / 2}
 							fill="#00FFFF"
 							radius={10}
+						/>
+						<Text
+							x={this.middleX - 100}
+							y={50}
+							fontSize={60}
+							align="center"
+							fontFamily="'Comic Sans MS', cursive, sans-serif"
+							fill="#66FF33"
+							text="0"
+						/>
+						<Text
+							x={this.middleX + 60}
+							y={50}
+							fontSize={60}
+							align="center"
+							fontFamily="'Comic Sans MS', cursive, sans-serif"
+							fill="#66FF33"
+							text="0"
 						/>
 					</Layer>
 				</Stage>
