@@ -84,9 +84,7 @@ class PongApp extends Component {
 								// dashed stroke 15px long and 10 px apart
 								[15, 10]
 							}
-							x={this.middleX}
-							y={0}
-							points={[0, 0, 0, gameHeight]}
+							points={[this.middleX, 0, this.middleX, gameHeight]}
 							stroke="white"
 							width={5}
 							height={gameHeight}
