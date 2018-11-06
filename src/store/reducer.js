@@ -29,6 +29,12 @@ const computerPaddle = {
 	height: PADDLE_HEIGHT,
 };
 
+const ball = {
+	x: GAME_WIDTH / 2,
+	y: GAME_HEIGHT / 2,
+	radius: 10
+};
+
 const initialState = {
 	boardColor: '#000000',
 	mode: 'paused',
@@ -36,7 +42,7 @@ const initialState = {
 	gameHeight: GAME_HEIGHT,
 	velocity: PADDLE_SPEED,
 	players: [humanPaddle, computerPaddle],
-	ball: {},
+	ball,
 	keysPressed: {},
 };
 

@@ -47,6 +47,4 @@ const mapStateToProps = state => {
   return { keysPressed };
 };
 
-const VisiblePaddle = connect(mapStateToProps)(Paddle);
-
-export default VisiblePaddle;
+export default connect(mapStateToProps)(Paddle);
