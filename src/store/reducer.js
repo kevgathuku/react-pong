@@ -1,3 +1,4 @@
+import produce from 'immer';
 import { ActionTypes } from './types';
 
 const GAME_WIDTH = 800;
@@ -5,11 +6,18 @@ const GAME_HEIGHT = 700;
 
 const PADDLE_WIDTH = 20;
 const PADDLE_HEIGHT = 100;
-
 const PADDLE_OFFSET_X = 20;
 const PADDLE_OFFSET_Y = 50;
-
 const PADDLE_SPEED = 20;
+
+const randomDirection = () => {
+	let direction = Math.random();
+	if (direction > 0.5) {
+		return -1 * direction;
+	} else {
+		return direction;
+	}
+};
 
 const humanPaddle = {
 	controller: 'human',
@@ -32,7 +40,9 @@ const computerPaddle = {
 const ball = {
 	x: GAME_WIDTH / 2,
 	y: GAME_HEIGHT / 2,
-	radius: 10
+	radius: 10,
+	x_speed: 0,
+	y_speed: 0,
 };
 
 const initialState = {
@@ -93,6 +103,17 @@ const reducer = (state = initialState, action) => {
 				return player;
 			});
 			return Object.assign({}, state, { players: updatedPaddles });
+		case ActionTypes.SERVE_BALL_RANDOM:
+			// Set the ball's direction and speed
+			return produce(state, draftState => {
+				draftState.ball.x_speed = 5 * randomDirection();
+				draftState.ball.y_speed = 5 * randomDirection();
+			});
+		case ActionTypes.MOVE_BALL:
+			return produce(state, draftState => {
+				draftState.ball.x = draftState.ball.x + draftState.ball.x_speed;
+				draftState.ball.y = draftState.ball.y + draftState.ball.y_speed;
+			});
 		default:
 			return state;
 	}

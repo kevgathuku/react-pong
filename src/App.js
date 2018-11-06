@@ -9,6 +9,8 @@ import './App.css';
 import Paddle from './components/Paddle';
 import Ball from './components/Ball';
 
+import { serveBall, moveBall } from './store/actions';
+
 class PongApp extends Component {
 	static propTypes = {
 		dispatch: PropTypes.func.isRequired,
@@ -16,6 +18,10 @@ class PongApp extends Component {
 		gameWidth: PropTypes.number.isRequired,
 		gameHeight: PropTypes.number.isRequired,
 		boardColor: PropTypes.string.isRequired,
+	};
+
+	static contextTypes = {
+		loop: PropTypes.object,
 	};
 
 	componentDidMount() {
@@ -55,13 +61,27 @@ class PongApp extends Component {
 		dispatch(keyUp(event.key));
 	};
 
+	startGame = () => {
+		const { dispatch } = this.props;
+
+		dispatch(serveBall());
+	};
+
+	update() {
+		const { dispatch } = this.props;
+		dispatch(moveBall());
+	}
+
 	render() {
 		const { boardColor, players, gameWidth, gameHeight } = this.props;
-		return <div className="App">
+		return (
+			<div className="App">
 				<div className="intro content">
 					<h2>PONG</h2>
 					<p>Use keys W and S to move the left paddle up and down</p>
-					<button className="button is-primary">START</button>
+					<button className="button is-primary" onClick={this.startGame}>
+						START
+					</button>
 					<p />
 					<p>The first player to reach a score of 10 wins the game</p>
 					<h3>GOOD LUCK!</h3>
@@ -69,19 +89,51 @@ class PongApp extends Component {
 				<div className="game">
 					<Stage width={gameWidth} height={gameHeight}>
 						<Layer>
-							<Rect x={0} y={0} width={gameWidth} height={gameHeight} fill={boardColor} shadowBlur={10} />
+							<Rect
+								x={0}
+								y={0}
+								width={gameWidth}
+								height={gameHeight}
+								fill={boardColor}
+								shadowBlur={10}
+							/>
 							{players.map(player => (
 								<Paddle player={player} key={player.position} />
 							))}
-							<Line dash={// dashed stroke 15px long and 10px apart
-									[15, 10]} points={[this.middleX, 0, this.middleX, gameHeight]} stroke="white" width={5} height={gameHeight} />
+							<Line
+								dash={
+									// dashed stroke 15px long and 10px apart
+									[15, 10]
+								}
+								points={[this.middleX, 0, this.middleX, gameHeight]}
+								stroke="white"
+								width={5}
+								height={gameHeight}
+							/>
 							<Ball />
-							<Text x={this.middleX - 100} y={50} fontSize={60} align="center" fontFamily="'Comic Sans MS', cursive, sans-serif" fill="#66FF33" text="0" />
-							<Text x={this.middleX + 60} y={50} fontSize={60} align="center" fontFamily="'Comic Sans MS', cursive, sans-serif" fill="#66FF33" text="0" />
+							<Text
+								x={this.middleX - 100}
+								y={50}
+								fontSize={60}
+								align="center"
+								fontFamily="'Comic Sans MS', cursive, sans-serif"
+								fill="#66FF33"
+								text="0"
+							/>
+							<Text
+								x={this.middleX + 60}
+								y={50}
+								fontSize={60}
+								align="center"
+								fontFamily="'Comic Sans MS', cursive, sans-serif"
+								fill="#66FF33"
+								text="0"
+							/>
 						</Layer>
 					</Stage>
 				</div>
-			</div>;
+			</div>
+		);
 	}
 }
 

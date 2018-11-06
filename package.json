@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.7.1",
+    "immer": "^1.7.4",
     "konva": "^2.4.0",
     "node-sass": "^4.9.3",
     "prop-types": "^15.6.2",

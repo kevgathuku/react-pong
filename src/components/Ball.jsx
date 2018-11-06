@@ -14,14 +14,7 @@ class Ball extends Component {
 			data: { x, y, radius },
 		} = this.props;
 
-		return (
-      <Circle
-        x={x}
-        y={y}
-        fill="#00FFFF"
-        radius={radius}
-      />
-		);
+		return <Circle x={x} y={y} fill="#00FFFF" radius={radius} />;
 	}
 }
 

@@ -19,3 +19,9 @@ export const movePaddleUp = (position, velocity) => ({
 	type: ActionTypes.MOVE_PADDLE_UP,
 	payload: { position },
 });
+
+export const serveBall = () => ({
+	type: ActionTypes.SERVE_BALL_RANDOM,
+});
+
+export const moveBall = () => ({ type: ActionTypes.MOVE_BALL });
