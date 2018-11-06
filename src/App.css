@@ -1,13 +1,17 @@
 .App {
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 50px;
-  max-width: 1200px;
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 50px;
+  width: 1200px;
 }
 
 .intro {
-  width: 300px;
-  padding: 20px;
+	width: 300px;
+	padding: 20px;
+}
+
+.game {
+	width: 800px;
 }
