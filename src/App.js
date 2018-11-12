@@ -100,6 +100,7 @@ class PongApp extends Component {
 							{players.map(player => (
 								<Paddle player={player} key={player.position} />
 							))}
+							{/* Middle boundary between the 2 halves */}
 							<Line
 								dash={
 									// dashed stroke 15px long and 10px apart
@@ -111,6 +112,7 @@ class PongApp extends Component {
 								height={gameHeight}
 							/>
 							<Ball />
+							{/* Scores */}
 							<Text
 								x={this.middleX - 100}
 								y={50}
