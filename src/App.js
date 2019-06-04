@@ -7,12 +7,11 @@ import { keyPress, keyUp } from './store/actions';
 import './App.css';
 import Paddle from './components/Paddle';
 import Ball from './components/Ball';
-import RotatingBunny from './components/RotatingBunny';
 
 import { serveBall, moveBall } from './store/actions';
 
 import { Stage, Container, withPixiApp } from '@inlet/react-pixi';
-const BunnyWithApp = withPixiApp(RotatingBunny);
+const BallWithApp = withPixiApp(Ball);
 
 class PongApp extends Component {
   static propTypes = {
@@ -72,10 +71,17 @@ class PongApp extends Component {
   }
 
   render() {
+    const { boardColor, players, gameWidth, gameHeight } = this.props;
     return (
-      <Stage width={500} height={500} options={{ backgroundColor: 0x012b30 }}>
-        <Container x={250} y={250}>
-          <BunnyWithApp />
+      <Stage
+        width={gameWidth}
+        height={gameHeight}
+        options={{ backgroundColor: 0x012b30 }}
+      >
+        <Container>
+          <Paddle player={players[0]} />
+          <Paddle player={players[1]} />
+          <BallWithApp />
         </Container>
       </Stage>
     );
