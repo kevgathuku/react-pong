@@ -37,7 +37,7 @@ const computerPaddle = {
   height: PADDLE_HEIGHT,
 };
 
-const ball = {
+const BALL_DEFAULTS = {
   x: GAME_WIDTH / 2,
   y: GAME_HEIGHT / 2,
   radius: 10,
@@ -52,8 +52,12 @@ const initialState = {
   gameHeight: GAME_HEIGHT,
   velocity: PADDLE_SPEED,
   players: [humanPaddle, computerPaddle],
-  ball,
+  ball: BALL_DEFAULTS,
   keysPressed: {},
+  scores: {
+    left: 0,
+    right: 0,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -103,32 +107,95 @@ const reducer = (state = initialState, action) => {
         return player;
       });
       return Object.assign({}, state, { players: updatedPaddles });
-    case ActionTypes.SERVE_BALL_RANDOM:
-      // Set the ball's direction and speed
-      return produce(state, draftState => {
-        draftState.ball.x += draftState.ball.x_speed * randomDirection();
-        draftState.ball.y += draftState.ball.y_speed * randomDirection();
-      });
     case ActionTypes.SET_BALL_POSITION:
+      break;
+    case ActionTypes.INCREMENT_SCORE:
       break;
     case ActionTypes.MOVE_BALL:
       return produce(state, draftState => {
         const top_y = draftState.ball.y - draftState.ball.radius;
         const right_x = draftState.ball.x + draftState.ball.radius;
         const bottom_y = draftState.ball.y + draftState.ball.radius;
-				const left_x = draftState.ball.x - draftState.ball.radius;
+        const left_x = draftState.ball.x - draftState.ball.radius;
 
-				draftState.ball.x += draftState.ball.x_speed;
+        const paddle1 = draftState.players.find(
+          player => player.position === 'left'
+        );
+        const paddle2 = draftState.players.find(
+          player => player.position === 'right'
+        );
+
+        draftState.ball.x += draftState.ball.x_speed;
         draftState.ball.y += draftState.ball.y_speed;
 
         // Hitting the top boundary
         if (draftState.ball.y - draftState.ball.radius < 0) {
           draftState.ball.y = draftState.ball.radius; // Don't go beyond the boundary
-          draftState.ball.y_speed = -draftState.ball.y_speed + Math.random(); // Reverse the direction
+          draftState.ball.y_speed = -draftState.ball.y_speed; // Reverse the direction
         } // Hitting the bottom boundary
-        else if (draftState.ball.y + draftState.ball.radius > draftState.gameHeight) {
+        else if (
+          draftState.ball.y + draftState.ball.radius >
+          draftState.gameHeight
+        ) {
           draftState.ball.y = draftState.gameHeight - draftState.ball.radius; // Set the new position
-          draftState.ball.y_speed = -draftState.ball.y_speed - Math.random(); // Reverse direction
+          draftState.ball.y_speed = -draftState.ball.y_speed; // Reverse direction
+        }
+
+        // If the computer has scored
+        if (draftState.ball.x < 0) {
+          draftState.ball.x_speed = 5; // Serve the ball to the computer
+          draftState.ball.y_speed = 3 * randomDirection();
+          draftState.ball.x = BALL_DEFAULTS.x;
+          draftState.ball.y = BALL_DEFAULTS.y;
+
+          // score_against.play(); -> Play audio
+          // paddle2.updateScore();
+        } // The player has scored
+        else if (draftState.ball.x > draftState.gameWidth) {
+          draftState.ball.x_speed = -5; // Serve the ball to the player
+          draftState.ball.y_speed = 3 * randomDirection();
+          draftState.ball.x = BALL_DEFAULTS.x;
+          draftState.ball.y = BALL_DEFAULTS.y;
+          // score_for.play(); -> Play audio
+          // paddle1.updateScore();
+        }
+
+        // If the ball is in the left half of the table
+        if (right_x < draftState.gameWidth / 2) {
+          // The ball has not yet passed the paddle
+          // The ball has made contact with the paddle
+          // The topmost side of the ball is in the range of the paddle
+          // The bottom side of the ball is in the range of the paddle
+          if (
+            right_x > paddle1.x &&
+            left_x < paddle1.x + paddle1.width &&
+            top_y < paddle1.y + paddle1.height &&
+            bottom_y > paddle1.y
+          ) {
+            draftState.ball.x_speed =
+              Math.abs(draftState.ball.x_speed) + Math.random();
+            draftState.ball.y_speed += Math.random();
+            draftState.ball.x += draftState.ball.x_speed;
+            // Play audio
+            // contact.currentTime = 0;
+            // contact.play();
+          }
+        } else {
+          // The ball is in the right half of the table
+          if (
+            right_x > paddle2.x &&
+            left_x < paddle2.x + paddle2.width &&
+            top_y < paddle2.y + paddle2.height &&
+            bottom_y > paddle2.y
+          ) {
+            draftState.ball.x_speed =
+              -Math.abs(draftState.ball.x_speed) - Math.random();
+            draftState.ball.y_speed += Math.random();
+            draftState.ball.x += draftState.ball.x_speed;
+            // Play audio
+            // contact.currentTime = 0;
+            // contact.play();
+          }
         }
       });
     default:

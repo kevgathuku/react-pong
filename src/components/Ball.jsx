@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Graphics } from '@inlet/react-pixi';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { moveBall, serveBall } from '../store/actions'
+import { moveBall } from '../store/actions'
 
 class Ball extends Component {
   static propTypes = {
@@ -27,7 +27,6 @@ class Ball extends Component {
 
   render() {
     const {
-			dispatch,
       data: { x, y, radius },
     } = this.props;
 

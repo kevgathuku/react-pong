@@ -10,12 +10,12 @@ export const keyUp = (key = null) => ({
   payload: key,
 });
 
-export const movePaddleDown = (position, velocity) => ({
+export const movePaddleDown = (position) => ({
   type: ActionTypes.MOVE_PADDLE_DOWN,
   payload: { position },
 });
 
-export const movePaddleUp = (position, velocity) => ({
+export const movePaddleUp = (position) => ({
   type: ActionTypes.MOVE_PADDLE_UP,
   payload: { position },
 });
