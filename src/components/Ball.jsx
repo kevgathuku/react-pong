@@ -10,14 +10,14 @@ class Ball extends Component {
     data: PropTypes.object.isRequired,
 	};
 
-	componentDidMount() {
-    // listen to tick events (raf)
-    this.props.app.ticker.add(this.tick);
-  }
-
   componentWillUnmount() {
     // stop listening for tick events
     this.props.app.ticker.remove(this.tick);
+	}
+
+	startGame = () => {
+		// listen to tick events (raf)
+		this.props.app.ticker.add(this.tick);
 	}
 
 	tick = delta => {
@@ -43,8 +43,7 @@ class Ball extends Component {
 				}}
 				interactive
 				pointerdown={() => {
-					console.log('click')
-					dispatch(serveBall())
+					this.startGame();
 				}}
       />
     );
