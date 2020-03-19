@@ -42,18 +42,24 @@ const computerPaddle = {
 const resumeButton = {
   x: GAME_WIDTH / 2,
   y: GAME_HEIGHT / 2 - 50,
+  top_x: GAME_WIDTH / 2 - 120, // x - 120
+  top_y: GAME_HEIGHT / 2 - 100, // y - 50
   text: 'RESUME',
 };
 
 const onePlayerButton = {
   x: GAME_WIDTH / 2 - 200,
   y: GAME_HEIGHT / 2 - 50,
+  top_x: GAME_WIDTH / 2 - 320, // x - 120
+  top_y: GAME_HEIGHT / 2 - 100, // y - 50
   text: '1 PLAYER',
 };
 
 const twoPlayerButton = {
   x: GAME_WIDTH / 2 + 200,
   y: GAME_HEIGHT / 2 - 50,
+  top_x: GAME_WIDTH / 2 + 80, // x - 120
+  top_y: GAME_HEIGHT / 2 - 100, // y - 50
   text: '2 PLAYERS',
 };
 

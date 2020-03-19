@@ -12,7 +12,7 @@ export default class Button extends Component {
 
   render() {
     const {
-      data: { x, y, text },
+      data: { x, y, top_x, top_y, text },
     } = this.props;
 
     return (
@@ -32,7 +32,7 @@ export default class Button extends Component {
             new PIXI.TextStyle({
               align: 'center',
               fontFamily: 'Arial, sans-serif',
-              fontSize: 40,
+              fontSize: 35,
               fill: '#26f7a3',
               // stroke: '#ffffff',
               // strokeThickness: 2,
@@ -43,9 +43,8 @@ export default class Button extends Component {
         <Graphics
           preventRedraw
           draw={g => {
-            // start drawing
             g.lineStyle(2, 0xfffff, 1);
-            g.drawRect(x - 120, y - 50, 250, 100);
+            g.drawRect(top_x, top_y, 250, 100);
           }}
         />
       </Container>
