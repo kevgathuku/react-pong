@@ -28,11 +28,11 @@ class Paddle extends Component {
     if (!position) return null;
 
     if (position === 'left') {
-      if (keysPressed['s']) {
-        dispatch(movePaddleDown(position));
-      }
-      if (keysPressed['w']) {
+      if (keysPressed['a']) {
         dispatch(movePaddleUp(position));
+      }
+      if (keysPressed['z']) {
+        dispatch(movePaddleDown(position));
       }
     }
 

@@ -67,8 +67,8 @@ const PongContainer = withPixiApp(
           this.props.app.ticker.remove(this.tick);
           break;
 
-        case 87: // W
-        case 83: // S
+        case 65: // A
+        case 90: // Z
           dispatch(keyPress(event.key));
           break;
         default:
