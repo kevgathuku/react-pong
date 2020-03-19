@@ -1,96 +1,124 @@
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { keyPress, keyUp } from './store/actions';
+import { Stage, Container, withPixiApp } from '@inlet/react-pixi';
 
 import './App.css';
-import Paddle from './components/Paddle';
 import Ball from './components/Ball';
+import Button from './components/Button';
+import Paddle from './components/Paddle';
+import { serveBall, moveBall, keyPress, keyUp } from './store/actions';
 
-import { serveBall, moveBall } from './store/actions';
+const mapStateToProps = state => {
+  const {
+    players,
+    gameWidth,
+    gameHeight,
+    boardColor,
+    keysPressed,
+    mode,
+  } = state;
+  return { players, gameWidth, gameHeight, boardColor, keysPressed, mode };
+};
 
-import { Stage, Container, withPixiApp } from '@inlet/react-pixi';
-const BallWithApp = withPixiApp(Ball);
+const PongContainer = withPixiApp(
+  class extends Component {
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      players: PropTypes.array.isRequired,
+      gameWidth: PropTypes.number.isRequired,
+      gameHeight: PropTypes.number.isRequired,
+      boardColor: PropTypes.number.isRequired,
+    };
 
-class PongApp extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    players: PropTypes.array.isRequired,
-    gameWidth: PropTypes.number.isRequired,
-    gameHeight: PropTypes.number.isRequired,
-    boardColor: PropTypes.string.isRequired,
-  };
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.onKeyDown);
-    window.addEventListener('keyup', this.onKeyUp);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onKeyDown);
-    window.removeEventListener('keyup', this.onKeyUp);
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.middleX = props.gameWidth / 2;
-    this.middleY = props.gameHeight / 2;
-  }
-
-  onKeyDown = event => {
-    const { dispatch } = this.props;
-
-    switch (event.keyCode) {
-      case 87: // W
-      case 83: // S
-        console.log('Key', event);
-        dispatch(keyPress(event.key));
-        break;
-      default:
-        return; // Do nothing
+    componentDidMount() {
+      window.addEventListener('keydown', this.onKeyDown);
+      window.addEventListener('keyup', this.onKeyUp);
     }
-  };
 
-  onKeyUp = event => {
-    const { dispatch } = this.props;
+    componentWillUnmount() {
+      window.removeEventListener('keydown', this.onKeyDown);
+      window.removeEventListener('keyup', this.onKeyUp);
+      this.props.app.ticker.remove(this.tick);
+    }
 
-    dispatch(keyUp(event.key));
-  };
+    constructor(props) {
+      super(props);
 
-  startGame = () => {
-    const { dispatch } = this.props;
+      this.middleX = props.gameWidth / 2;
+      this.middleY = props.gameHeight / 2;
+    }
 
-    dispatch(serveBall());
-  };
+    onKeyDown = event => {
+      const { dispatch } = this.props;
 
-  update() {
-    const { dispatch } = this.props;
-    dispatch(moveBall());
-  }
+      switch (event.keyCode) {
+        case 87: // W
+        case 83: // S
+          console.log('Key', event);
+          dispatch(keyPress(event.key));
+          break;
+        default:
+          return; // Do nothing
+      }
+    };
 
-  render() {
-    const { boardColor, players, gameWidth, gameHeight } = this.props;
-    return (
-      <Stage
-        width={gameWidth}
-        height={gameHeight}
-        options={{ backgroundColor: 0x012b30 }}
-      >
+    onKeyUp = event => {
+      const { dispatch } = this.props;
+
+      dispatch(keyUp(event.key));
+    };
+
+    startGame = () => {
+      const { dispatch } = this.props;
+
+      dispatch(serveBall());
+      this.props.app.ticker.add(this.tick);
+    };
+
+    resumeGame = () => {
+      //  TODO
+    };
+
+    tick = () => {
+      const { dispatch } = this.props;
+      dispatch(moveBall());
+    };
+
+    render() {
+      const { boardColor, players, gameWidth, gameHeight, mode } = this.props;
+      return (
         <Container>
           <Paddle player={players[0]} />
           <Paddle player={players[1]} />
-          <BallWithApp />
+          {mode === 'pre-start' ? (
+            <Button text="START" action={this.startGame} />
+          ) : null}
+          {mode === 'paused' ? (
+            <Button text="RESUME" action={this.resumeGame} />
+          ) : null}
+          <Ball />
         </Container>
-      </Stage>
-    );
+      );
+    }
   }
-}
+);
 
-const mapStateToProps = state => {
-  const { players, gameWidth, gameHeight, boardColor, keysPressed } = state;
-  return { players, gameWidth, gameHeight, boardColor, keysPressed };
+const ConnectedPongContainer = connect(mapStateToProps)(PongContainer);
+
+const PongApp = props => {
+  const { boardColor, gameWidth, gameHeight } = props;
+
+  return (
+    <Stage
+      width={gameWidth}
+      height={gameHeight}
+      options={{ backgroundColor: boardColor }}
+    >
+      <ConnectedPongContainer />
+    </Stage>
+  );
 };
 
 export default connect(mapStateToProps)(PongApp);

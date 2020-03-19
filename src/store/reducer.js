@@ -26,6 +26,7 @@ const humanPaddle = {
   y: PADDLE_OFFSET_Y,
   width: PADDLE_WIDTH,
   height: PADDLE_HEIGHT,
+  score: 0,
 };
 
 const computerPaddle = {
@@ -35,6 +36,13 @@ const computerPaddle = {
   y: PADDLE_OFFSET_Y,
   width: PADDLE_WIDTH,
   height: PADDLE_HEIGHT,
+  score: 0,
+};
+
+const startButton = {
+  x: GAME_WIDTH / 2,
+  y: GAME_HEIGHT / 2 - 50,
+  text: 'START',
 };
 
 const BALL_DEFAULTS = {
@@ -46,18 +54,15 @@ const BALL_DEFAULTS = {
 };
 
 const initialState = {
-  boardColor: '#000000',
-  mode: 'paused',
+  boardColor: 0x0d0c22,
+  mode: 'pre-start',
   gameWidth: GAME_WIDTH,
   gameHeight: GAME_HEIGHT,
   velocity: PADDLE_SPEED,
   players: [humanPaddle, computerPaddle],
   ball: BALL_DEFAULTS,
+  button: startButton,
   keysPressed: {},
-  scores: {
-    left: 0,
-    right: 0,
-  },
 };
 
 const reducer = (state = initialState, action) => {
