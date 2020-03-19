@@ -49,8 +49,8 @@ class Paddle extends Component {
           // clear the graphics
           g.clear();
           // start drawing
-          g.beginFill(0xff3300);
-          g.lineStyle(4, 0xffd900);
+          if (position === 'left') g.beginFill(0xf977a3);
+          if (position === 'right') g.beginFill(0x66ddd4);
           g.drawRect(x, y, width, height);
         }}
       />
