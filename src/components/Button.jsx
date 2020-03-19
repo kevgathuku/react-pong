@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import * as PIXI from 'pixi.js';
 import PropTypes from 'prop-types';
-import { Text, Graphics } from '@inlet/react-pixi';
+import { Text, Graphics, Container } from '@inlet/react-pixi';
 
 export default class Button extends Component {
   static propTypes = {
@@ -16,7 +16,12 @@ export default class Button extends Component {
     } = this.props;
 
     return (
-      <>
+      <Container
+        interactive
+        pointerdown={() => {
+          this.props.action();
+        }}
+      >
         <Text
           text={text}
           anchor={0.5}
@@ -37,19 +42,13 @@ export default class Button extends Component {
         />
         <Graphics
           preventRedraw
-          interactive
-          pointerdown={() => {
-            this.props.action();
-          }}
           draw={g => {
-            // clear the graphics
-            g.clear();
             // start drawing
             g.lineStyle(2, 0xfffff, 1);
             g.drawRect(x - 120, y - 50, 250, 100);
           }}
         />
-      </>
+      </Container>
     );
   }
 }
