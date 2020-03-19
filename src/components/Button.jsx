@@ -9,7 +9,7 @@ class Button extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     action: PropTypes.func.isRequired,
-    button: PropTypes.func.isRequired,
+    button: PropTypes.object.isRequired,
     text: PropTypes.string.isRequired,
   };
 

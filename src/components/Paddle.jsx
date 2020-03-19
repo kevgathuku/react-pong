@@ -43,7 +43,7 @@ class Paddle extends Component {
           g.clear();
           // start drawing
           g.beginFill(0xff3300);
-          g.lineStyle(4, 0xffd900, 0.5);
+          g.lineStyle(4, 0xffd900);
           g.drawRect(x, y, width, height);
         }}
       />

@@ -87,7 +87,7 @@ const PongContainer = withPixiApp(
     };
 
     render() {
-      const { boardColor, players, gameWidth, gameHeight, mode } = this.props;
+      const { players, mode } = this.props;
       return (
         <Container>
           <Paddle player={players[0]} />
