@@ -70,7 +70,10 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.START_GAME:
+    case ActionTypes.RESUME_GAME:
       return Object.assign({}, state, { mode: 'playing' });
+    case ActionTypes.PAUSE_GAME:
+      return Object.assign({}, state, { mode: 'paused' });
     case ActionTypes.KEYPRESS:
       return Object.assign({}, state, {
         keysPressed: {

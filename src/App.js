@@ -8,7 +8,14 @@ import './App.css';
 import Ball from './components/Ball';
 import Button from './components/Button';
 import Paddle from './components/Paddle';
-import { serveBall, moveBall, keyPress, keyUp } from './store/actions';
+import {
+  serveBall,
+  moveBall,
+  keyPress,
+  keyUp,
+  pauseGame,
+  resumeGame,
+} from './store/actions';
 
 const mapStateToProps = state => {
   const {
@@ -54,12 +61,18 @@ const PongContainer = withPixiApp(
       const { dispatch } = this.props;
 
       switch (event.keyCode) {
+        case 27:
+          // ESC - Pause the game
+          dispatch(pauseGame());
+          this.props.app.ticker.remove(this.tick);
+          break;
+
         case 87: // W
         case 83: // S
-          console.log('Key', event);
           dispatch(keyPress(event.key));
           break;
         default:
+          console.log('Key', event);
           return; // Do nothing
       }
     };
@@ -78,7 +91,10 @@ const PongContainer = withPixiApp(
     };
 
     resumeGame = () => {
-      //  TODO
+      const { dispatch } = this.props;
+      // Resume the ticker
+      this.props.app.ticker.add(this.tick);
+      dispatch(resumeGame());
     };
 
     tick = () => {

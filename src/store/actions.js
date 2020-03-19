@@ -24,6 +24,14 @@ export const serveBall = () => ({
   type: ActionTypes.START_GAME,
 });
 
+export const pauseGame = () => ({
+  type: ActionTypes.PAUSE_GAME,
+});
+
+export const resumeGame = () => ({
+  type: ActionTypes.RESUME_GAME,
+});
+
 export const moveBall = () => ({ type: ActionTypes.MOVE_BALL });
 
 export const setBallPosition = position => ({
