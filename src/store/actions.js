@@ -20,8 +20,9 @@ export const movePaddleUp = position => ({
   payload: { position },
 });
 
-export const serveBall = () => ({
+export const startGame = playerMode => ({
   type: ActionTypes.START_GAME,
+  payload: { playerMode },
 });
 
 export const pauseGame = () => ({

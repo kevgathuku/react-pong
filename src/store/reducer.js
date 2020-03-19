@@ -39,10 +39,22 @@ const computerPaddle = {
   score: 0,
 };
 
-const startButton = {
+const resumeButton = {
   x: GAME_WIDTH / 2,
   y: GAME_HEIGHT / 2 - 50,
-  text: 'START',
+  text: 'RESUME',
+};
+
+const onePlayerButton = {
+  x: GAME_WIDTH / 2 - 200,
+  y: GAME_HEIGHT / 2 - 50,
+  text: '1 PLAYER',
+};
+
+const twoPlayerButton = {
+  x: GAME_WIDTH / 2 + 200,
+  y: GAME_HEIGHT / 2 - 50,
+  text: '2 PLAYERS',
 };
 
 const BALL_DEFAULTS = {
@@ -55,14 +67,19 @@ const BALL_DEFAULTS = {
 
 const initialState = {
   boardColor: 0x0d0c22,
-  mode: 'pre-start',
   gameWidth: GAME_WIDTH,
   gameHeight: GAME_HEIGHT,
   velocity: PADDLE_SPEED,
   players: [humanPaddle, computerPaddle],
   ball: BALL_DEFAULTS,
-  button: startButton,
+  buttons: {
+    one: onePlayerButton,
+    two: twoPlayerButton,
+    resume: resumeButton,
+  },
   keysPressed: {},
+  status: 'pre-start',
+  playerMode: '2-players',
 };
 
 const reducer = (state = initialState, action) => {
@@ -70,10 +87,12 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.START_GAME:
+      const { playerMode } = payload;
+      return Object.assign({}, state, { status: 'playing', playerMode });
     case ActionTypes.RESUME_GAME:
-      return Object.assign({}, state, { mode: 'playing' });
+      return Object.assign({}, state, { status: 'playing' });
     case ActionTypes.PAUSE_GAME:
-      return Object.assign({}, state, { mode: 'paused' });
+      return Object.assign({}, state, { status: 'paused' });
     case ActionTypes.KEYPRESS:
       return Object.assign({}, state, {
         keysPressed: {

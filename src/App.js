@@ -10,7 +10,7 @@ import Ball from './components/Ball';
 import Button from './components/Button';
 import Paddle from './components/Paddle';
 import {
-  serveBall,
+  startGame,
   moveBall,
   keyPress,
   keyUp,
@@ -25,9 +25,20 @@ const mapStateToProps = state => {
     gameHeight,
     boardColor,
     keysPressed,
-    mode,
+    status,
+    playerMode,
+    buttons,
   } = state;
-  return { players, gameWidth, gameHeight, boardColor, keysPressed, mode };
+  return {
+    players,
+    gameWidth,
+    gameHeight,
+    boardColor,
+    keysPressed,
+    status,
+    playerMode,
+    buttons,
+  };
 };
 
 const PongContainer = withPixiApp(
@@ -86,10 +97,10 @@ const PongContainer = withPixiApp(
       dispatch(keyUp(event.key));
     };
 
-    startGame = () => {
+    start = playerMode => {
       const { dispatch } = this.props;
 
-      dispatch(serveBall());
+      dispatch(startGame(playerMode));
       this.props.app.ticker.add(this.tick);
     };
 
@@ -106,7 +117,7 @@ const PongContainer = withPixiApp(
     };
 
     render() {
-      const { players, mode, gameWidth } = this.props;
+      const { players, status, gameWidth, buttons } = this.props;
       return (
         <Container>
           <Text
@@ -127,13 +138,22 @@ const PongContainer = withPixiApp(
           />
           <Paddle player={players[0]} />
           <Paddle player={players[1]} />
-          {mode === 'pre-start' ? (
-            <Button text="START" action={this.startGame} />
+          {status === 'pre-start' ? (
+            <>
+              <Button
+                data={buttons.one}
+                action={() => this.start('1-player')}
+              />
+              <Button
+                data={buttons.two}
+                action={() => this.start('2-players')}
+              />
+            </>
           ) : null}
-          {mode === 'paused' ? (
-            <Button text="RESUME" action={this.resumeGame} />
+          {status === 'paused' ? (
+            <Button data={buttons.resume} action={this.resumeGame} />
           ) : null}
-          <Ball />
+          {status === 'playing' ? <Ball /> : null}
         </Container>
       );
     }
