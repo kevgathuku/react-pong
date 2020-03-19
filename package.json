@@ -6,13 +6,11 @@
     "@inlet/react-pixi": "^1.2.6",
     "bulma": "^0.7.1",
     "immer": "^1.7.4",
-    "konva": "^2.4.0",
     "node-sass": "^4.9.3",
     "pixi.js": "^5.2.1",
     "prop-types": "^15.6.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-konva": "^1.7.15",
     "react-redux": "^5.0.7",
     "react-scripts": "^3.4.0",
     "redux": "^4.0.0"
