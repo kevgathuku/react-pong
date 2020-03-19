@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
+import * as PIXI from 'pixi.js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Stage, Container, withPixiApp } from '@inlet/react-pixi';
+import { Stage, Container, Text, withPixiApp } from '@inlet/react-pixi';
 
 import './App.css';
 import Ball from './components/Ball';
@@ -105,9 +106,25 @@ const PongContainer = withPixiApp(
     };
 
     render() {
-      const { players, mode } = this.props;
+      const { players, mode, gameWidth } = this.props;
       return (
         <Container>
+          <Text
+            text="PONG!"
+            anchor={0.5}
+            x={gameWidth / 2}
+            y={50}
+            isSprite
+            style={
+              new PIXI.TextStyle({
+                align: 'center',
+                fontFamily: 'Futura, sans-serif',
+                fontSize: 40,
+                fill: '#ffffff',
+                letterSpacing: 10,
+              })
+            }
+          />
           <Paddle player={players[0]} />
           <Paddle player={players[1]} />
           {mode === 'pre-start' ? (
