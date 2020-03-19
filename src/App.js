@@ -69,6 +69,8 @@ const PongContainer = withPixiApp(
 
         case 65: // A
         case 90: // Z
+        case 38: // ArrowUp
+        case 40: // ArrowDown
           dispatch(keyPress(event.key));
           break;
         default:

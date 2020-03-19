@@ -34,6 +34,13 @@ class Paddle extends Component {
       if (keysPressed['z']) {
         dispatch(movePaddleDown(position));
       }
+    } else if (position === 'right') {
+      if (keysPressed['ArrowUp']) {
+        dispatch(movePaddleUp(position));
+      }
+      if (keysPressed['ArrowDown']) {
+        dispatch(movePaddleDown(position));
+      }
     }
 
     return (
