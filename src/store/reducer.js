@@ -114,6 +114,7 @@ const reducer = (state = initialState, action) => {
         },
       });
     case ActionTypes.MOVE_PADDLE_UP:
+      if (state.status === 'paused') return state;
       const { position } = payload;
       const updatedPlayers = state.players.map(player => {
         if (player.position === position) {
@@ -129,6 +130,7 @@ const reducer = (state = initialState, action) => {
 
       return Object.assign({}, state, { players: updatedPlayers });
     case ActionTypes.MOVE_PADDLE_DOWN:
+      if (state.status === 'paused') return state;
       const updatedPaddles = state.players.map(player => {
         if (player.position === payload.position) {
           player.y += velocity;
