@@ -1,8 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Graphics } from '@inlet/react-pixi';
 import { connect } from 'react-redux';
 
 import { movePaddleDown, movePaddleUp } from '../store/actions';
+
+Paddle.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  player: PropTypes.object.isRequired,
+  keysPressed: PropTypes.object,
+};
 
 function Paddle(props) {
   const {
