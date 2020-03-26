@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Graphics } from '@inlet/react-pixi';
 import { connect } from 'react-redux';
+
+Ball.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
 
 function Ball(props) {
   const {
