@@ -12,10 +12,11 @@ import Paddle from './components/Paddle';
 import {
   startGame,
   moveBall,
-  keyPress,
   keyUp,
   pauseGame,
   resumeGame,
+  movePaddleDown,
+  movePaddleUp,
 } from './store/actions';
 
 const mapStateToProps = state => {
@@ -80,10 +81,20 @@ const PongContainer = withPixiApp(
           break;
 
         case 65: // A
+          // Move the left paddle up
+          dispatch(movePaddleUp('left'));
+          break;
         case 90: // Z
+          // Move the left paddle down
+          dispatch(movePaddleDown('left'));
+          break;
         case 38: // ArrowUp
+          // Move the right paddle up
+          dispatch(movePaddleUp('right'));
+          break;
         case 40: // ArrowDown
-          dispatch(keyPress(event.key));
+          // Move the right paddle down
+          dispatch(movePaddleDown('right'));
           break;
         default:
           console.log('Key', event);
