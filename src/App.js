@@ -77,7 +77,7 @@ const PongContainer = withPixiApp(
         case 27:
           // ESC - Pause the game
           dispatch(pauseGame());
-          this.props.app.ticker.remove(this.tick);
+          this.props.app.ticker.stop();
           break;
 
         case 65: // A
@@ -118,7 +118,7 @@ const PongContainer = withPixiApp(
     resumeGame = () => {
       const { dispatch } = this.props;
       // Resume the ticker
-      this.props.app.ticker.add(this.tick);
+      this.props.app.ticker.start();
       dispatch(resumeGame());
     };
 
