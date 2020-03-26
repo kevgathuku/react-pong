@@ -151,7 +151,10 @@ const PongContainer = withPixiApp(
             </>
           ) : null}
           {status === 'paused' ? (
-            <Button data={buttons.resume} action={this.resumeGame} />
+            <>
+              <Button data={buttons.resume} action={this.resumeGame} />
+              <Ball />
+            </>
           ) : null}
           {status === 'playing' ? <Ball /> : null}
         </Container>
