@@ -115,33 +115,33 @@ const reducer = (state = initialState, action) => {
       });
     case ActionTypes.MOVE_PADDLE_UP:
       if (state.status === 'paused') return state;
-      const { position } = payload;
-      const updatedPlayers = state.players.map(player => {
-        if (player.position === position) {
-          // Decrease the Y value
-          player.y -= velocity;
-          // Top of the board
-          if (player.y < 0) {
-            player.y = 0;
-          }
-        }
-        return player;
-      });
 
-      return Object.assign({}, state, { players: updatedPlayers });
+      return produce(state, draftState => {
+        draftState.players.forEach(player => {
+          if (player.position === payload.position) {
+            // Decrease the Y value
+            player.y -= velocity;
+            // Top of the board
+            if (player.y < 0) {
+              player.y = 0;
+            }
+          }
+        });
+      });
     case ActionTypes.MOVE_PADDLE_DOWN:
       if (state.status === 'paused') return state;
-      const updatedPaddles = state.players.map(player => {
-        if (player.position === payload.position) {
-          player.y += velocity;
-          // Bottom of the board
-          if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
-            player.y = GAME_HEIGHT - PADDLE_HEIGHT;
+
+      return produce(state, draftState => {
+        draftState.players.forEach(player => {
+          if (player.position === payload.position) {
+            player.y += velocity;
+            // Bottom of the board
+            if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
+              player.y = GAME_HEIGHT - PADDLE_HEIGHT;
+            }
           }
-        }
-        return player;
+        });
       });
-      return Object.assign({}, state, { players: updatedPaddles });
     case ActionTypes.SET_BALL_POSITION:
       break;
     case ActionTypes.INCREMENT_SCORE:
