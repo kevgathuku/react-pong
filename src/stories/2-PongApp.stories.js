@@ -8,8 +8,8 @@ export default {
 };
 
 const defaultProps = {
-  players: [
-    {
+  players: {
+    left: {
       controller: 'human',
       position: 'left',
       x: 20,
@@ -18,7 +18,7 @@ const defaultProps = {
       height: 100,
       score: 0,
     },
-    {
+    right: {
       controller: 'computer',
       position: 'right',
       x: 760,
@@ -27,15 +27,14 @@ const defaultProps = {
       height: 100,
       score: 0,
     },
-  ],
+  },
   gameWidth: 800,
   gameHeight: 700,
   boardColor: 855074,
   keysPressed: {},
   status: 'pre-start',
   buttons: {
-    one: { x: 200, y: 300, top_x: 80, top_y: 250, text: '1 PLAYER' },
-    two: { x: 600, y: 300, top_x: 480, top_y: 250, text: '2 PLAYERS' },
+    start: { x: 400, y: 300, top_x: 280, top_y: 250, text: 'START' },
     resume: { x: 400, y: 300, top_x: 280, top_y: 250, text: 'RESUME' },
   },
   dispatch: action('dispatch clicked'),

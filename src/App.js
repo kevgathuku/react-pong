@@ -23,7 +23,7 @@ const PongContainer = withPixiApp(
   class extends Component {
     static propTypes = {
       dispatch: PropTypes.func.isRequired,
-      players: PropTypes.array.isRequired,
+      players: PropTypes.object.isRequired,
       gameWidth: PropTypes.number.isRequired,
       gameHeight: PropTypes.number.isRequired,
       boardColor: PropTypes.number.isRequired,
@@ -111,25 +111,53 @@ const PongContainer = withPixiApp(
       return (
         <Container>
           <Text
-            text="PONG!"
+            text={players.left.score}
             anchor={0.5}
-            x={gameWidth / 2}
-            y={50}
-            isSprite
+            x={gameWidth / 4}
+            y={150}
             style={
               new PIXI.TextStyle({
-                align: 'center',
-                fontFamily: 'Futura, sans-serif',
-                fontSize: 40,
+                fontSize: 60,
                 fill: '#ffffff',
                 letterSpacing: 10,
               })
             }
           />
-          <Paddle player={players[0]} />
-          <Paddle player={players[1]} />
+          <Text
+            text={players.right.score}
+            anchor={0.5}
+            x={(gameWidth / 4) * 3}
+            y={150}
+            style={
+              new PIXI.TextStyle({
+                fontSize: 60,
+                fill: '#ffffff',
+                letterSpacing: 10,
+              })
+            }
+          />
+          <Paddle player={players.left} />
+          <Paddle player={players.right} />
           {status === 'pre-start' ? (
-            <Button data={buttons.start} action={() => this.start()} />
+            <>
+              <Text
+                text="PONG!"
+                anchor={0.5}
+                x={gameWidth / 2}
+                y={50}
+                isSprite
+                style={
+                  new PIXI.TextStyle({
+                    align: 'center',
+                    fontFamily: 'Futura, sans-serif',
+                    fontSize: 40,
+                    fill: '#ffffff',
+                    letterSpacing: 10,
+                  })
+                }
+              />
+              <Button data={buttons.start} action={() => this.start()} />
+            </>
           ) : null}
           {status === 'paused' ? (
             <>

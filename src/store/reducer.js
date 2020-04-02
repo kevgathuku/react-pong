@@ -64,7 +64,10 @@ const initialState = {
   gameWidth: GAME_WIDTH,
   gameHeight: GAME_HEIGHT,
   velocity: PADDLE_SPEED,
-  players: [humanPaddle, computerPaddle],
+  players: {
+    left: humanPaddle,
+    right: computerPaddle,
+  },
   ball: BALL_DEFAULTS,
   buttons: {
     start: startButton,
@@ -102,30 +105,27 @@ const reducer = (state = initialState, action) => {
       if (state.status === 'paused') return state;
 
       return produce(state, draftState => {
-        draftState.players.forEach(player => {
-          if (player.position === payload.position) {
-            // Decrease the Y value
-            player.y -= velocity;
-            // Top of the board
-            if (player.y < 0) {
-              player.y = 0;
-            }
-          }
-        });
+        let { position } = payload;
+        let player = draftState.players[position];
+        // Decrease the Y value
+        player.y -= velocity;
+        // Top of the board
+        if (player.y < 0) {
+          player.y = 0;
+        }
       });
     case ActionTypes.MOVE_PADDLE_DOWN:
       if (state.status === 'paused') return state;
 
       return produce(state, draftState => {
-        draftState.players.forEach(player => {
-          if (player.position === payload.position) {
-            player.y += velocity;
-            // Bottom of the board
-            if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
-              player.y = GAME_HEIGHT - PADDLE_HEIGHT;
-            }
-          }
-        });
+        let { position } = payload;
+        let player = draftState.players[position];
+
+        player.y += velocity;
+        // Bottom of the board
+        if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
+          player.y = GAME_HEIGHT - PADDLE_HEIGHT;
+        }
       });
     case ActionTypes.SET_BALL_POSITION:
       break;
@@ -138,12 +138,8 @@ const reducer = (state = initialState, action) => {
         const bottom_y = draftState.ball.y + draftState.ball.radius;
         const left_x = draftState.ball.x - draftState.ball.radius;
 
-        const paddle1 = draftState.players.find(
-          player => player.position === 'left'
-        );
-        const paddle2 = draftState.players.find(
-          player => player.position === 'right'
-        );
+        const paddle1 = draftState.players.left;
+        const paddle2 = draftState.players.right;
 
         draftState.ball.x += draftState.ball.x_speed;
         draftState.ball.y += draftState.ball.y_speed;
@@ -169,7 +165,7 @@ const reducer = (state = initialState, action) => {
           draftState.ball.y = BALL_DEFAULTS.y;
 
           // score_against.play(); -> Play audio
-          // paddle2.updateScore();
+          paddle2.score += 1;
         } // The player has scored
         else if (draftState.ball.x > draftState.gameWidth) {
           draftState.ball.x_speed = -5; // Serve the ball to the player
@@ -177,7 +173,7 @@ const reducer = (state = initialState, action) => {
           draftState.ball.x = BALL_DEFAULTS.x;
           draftState.ball.y = BALL_DEFAULTS.y;
           // score_for.play(); -> Play audio
-          // paddle1.updateScore();
+          paddle1.score += 1;
         }
 
         // If the ball is in the left half of the table
