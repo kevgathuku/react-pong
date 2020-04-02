@@ -86,10 +86,10 @@ const PongContainer = withPixiApp(
       dispatch(keyUp(event.key));
     };
 
-    start = playerMode => {
+    start = () => {
       const { dispatch } = this.props;
 
-      dispatch(startGame(playerMode));
+      dispatch(startGame());
       this.props.app.ticker.add(this.tick);
     };
 
@@ -129,16 +129,7 @@ const PongContainer = withPixiApp(
           <Paddle player={players[0]} />
           <Paddle player={players[1]} />
           {status === 'pre-start' ? (
-            <>
-              <Button
-                data={buttons.one}
-                action={() => this.start('1-player')}
-              />
-              <Button
-                data={buttons.two}
-                action={() => this.start('2-players')}
-              />
-            </>
+            <Button data={buttons.start} action={() => this.start()} />
           ) : null}
           {status === 'paused' ? (
             <>

@@ -47,21 +47,9 @@ const resumeButton = {
   text: 'RESUME',
 };
 
-const onePlayerButton = {
-  x: GAME_WIDTH / 2 - 200,
-  y: GAME_HEIGHT / 2 - 50,
-  top_x: GAME_WIDTH / 2 - 320, // x - 120
-  top_y: GAME_HEIGHT / 2 - 100, // y - 50
-  text: '1 PLAYER',
-};
-
-const twoPlayerButton = {
-  x: GAME_WIDTH / 2 + 200,
-  y: GAME_HEIGHT / 2 - 50,
-  top_x: GAME_WIDTH / 2 + 80, // x - 120
-  top_y: GAME_HEIGHT / 2 - 100, // y - 50
-  text: '2 PLAYERS',
-};
+const startButton = Object.assign({}, resumeButton, {
+  text: 'START',
+});
 
 const BALL_DEFAULTS = {
   x: GAME_WIDTH / 2,
@@ -79,13 +67,11 @@ const initialState = {
   players: [humanPaddle, computerPaddle],
   ball: BALL_DEFAULTS,
   buttons: {
-    one: onePlayerButton,
-    two: twoPlayerButton,
+    start: startButton,
     resume: resumeButton,
   },
   keysPressed: {},
   status: 'pre-start',
-  playerMode: '2-players',
 };
 
 const reducer = (state = initialState, action) => {
@@ -93,10 +79,8 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.START_GAME:
-      const { playerMode } = payload;
       return produce(state, draftState => {
         draftState.status = 'playing';
-        draftState.playerMode = playerMode;
       });
     case ActionTypes.RESUME_GAME:
       return produce(state, draftState => {

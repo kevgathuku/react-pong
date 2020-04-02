@@ -33,7 +33,6 @@ const defaultProps = {
   boardColor: 855074,
   keysPressed: {},
   status: 'pre-start',
-  playerMode: '2-players',
   buttons: {
     one: { x: 200, y: 300, top_x: 80, top_y: 250, text: '1 PLAYER' },
     two: { x: 600, y: 300, top_x: 480, top_y: 250, text: '2 PLAYERS' },
