@@ -94,24 +94,25 @@ const reducer = (state = initialState, action) => {
   switch (type) {
     case ActionTypes.START_GAME:
       const { playerMode } = payload;
-      return Object.assign({}, state, { status: 'playing', playerMode });
+      return produce(state, draftState => {
+        draftState.status = 'playing';
+        draftState.playerMode = playerMode;
+      });
     case ActionTypes.RESUME_GAME:
-      return Object.assign({}, state, { status: 'playing' });
+      return produce(state, draftState => {
+        draftState.status = 'playing';
+      });
     case ActionTypes.PAUSE_GAME:
-      return Object.assign({}, state, { status: 'paused' });
+      return produce(state, draftState => {
+        draftState.status = 'paused';
+      });
     case ActionTypes.KEYPRESS:
-      return Object.assign({}, state, {
-        keysPressed: {
-          ...state.keysPressed,
-          [payload]: true,
-        },
+      return produce(state, draftState => {
+        draftState.keysPressed[payload] = true;
       });
     case ActionTypes.KEY_UP:
-      return Object.assign({}, state, {
-        keysPressed: {
-          ...state.keysPressed,
-          [payload]: false,
-        },
+      return produce(state, draftState => {
+        draftState.keysPressed[payload] = false;
       });
     case ActionTypes.MOVE_PADDLE_UP:
       if (state.status === 'paused') return state;
