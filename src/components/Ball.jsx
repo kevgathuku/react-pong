@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Graphics } from '@inlet/react-pixi';
-import { connect } from 'react-redux';
 
 Ball.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
 };
 
-function Ball(props) {
+export default function Ball(props) {
   const {
     data: { x, y, radius },
   } = props;
@@ -26,10 +24,3 @@ function Ball(props) {
     />
   );
 }
-
-const mapStateToProps = state => {
-  const { ball, gameWidth, gameHeight } = state;
-  return { data: ball, gameWidth, gameHeight };
-};
-
-export default connect(mapStateToProps)(Ball);

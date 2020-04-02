@@ -19,29 +19,6 @@ import {
   movePaddleUp,
 } from './store/actions';
 
-const mapStateToProps = state => {
-  const {
-    players,
-    gameWidth,
-    gameHeight,
-    boardColor,
-    keysPressed,
-    status,
-    playerMode,
-    buttons,
-  } = state;
-  return {
-    players,
-    gameWidth,
-    gameHeight,
-    boardColor,
-    keysPressed,
-    status,
-    playerMode,
-    buttons,
-  };
-};
-
 const PongContainer = withPixiApp(
   class extends Component {
     static propTypes = {
@@ -129,7 +106,8 @@ const PongContainer = withPixiApp(
     };
 
     render() {
-      const { players, status, gameWidth, buttons } = this.props;
+      const { players, status, gameWidth, buttons, ball } = this.props;
+
       return (
         <Container>
           <Text
@@ -165,15 +143,19 @@ const PongContainer = withPixiApp(
           {status === 'paused' ? (
             <>
               <Button data={buttons.resume} action={this.resumeGame} />
-              <Ball />
+              <Ball data={ball} />
             </>
           ) : null}
-          {status === 'playing' ? <Ball /> : null}
+          {status === 'playing' ? <Ball data={ball} /> : null}
         </Container>
       );
     }
   }
 );
+
+const mapStateToProps = state => {
+  return state;
+};
 
 export const PongApp = props => {
   const {
@@ -184,6 +166,7 @@ export const PongApp = props => {
     players,
     buttons,
     status,
+    ball,
   } = props;
 
   const pongContainerProps = {
@@ -194,6 +177,7 @@ export const PongApp = props => {
     boardColor,
     buttons,
     status,
+    ball,
   };
 
   return (
