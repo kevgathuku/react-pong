@@ -66,14 +66,6 @@ const PongContainer = withPixiApp(
           // Move the left paddle down
           dispatch(movePaddleDown('left'));
           break;
-        case 38: // ArrowUp
-          // Move the right paddle up
-          dispatch(movePaddleUp('right'));
-          break;
-        case 40: // ArrowDown
-          // Move the right paddle down
-          dispatch(movePaddleDown('right'));
-          break;
         default:
           console.log('Key', event);
           return; // Do nothing
