@@ -50,6 +50,7 @@ const PongContainer = withPixiApp(
       gameWidth: PropTypes.number.isRequired,
       gameHeight: PropTypes.number.isRequired,
       boardColor: PropTypes.number.isRequired,
+      buttons: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
@@ -174,10 +175,26 @@ const PongContainer = withPixiApp(
   }
 );
 
-const ConnectedPongContainer = connect(mapStateToProps)(PongContainer);
+export const PongApp = props => {
+  const {
+    boardColor,
+    gameWidth,
+    gameHeight,
+    dispatch,
+    players,
+    buttons,
+    status,
+  } = props;
 
-const PongApp = props => {
-  const { boardColor, gameWidth, gameHeight } = props;
+  const pongContainerProps = {
+    dispatch,
+    players,
+    gameWidth,
+    gameHeight,
+    boardColor,
+    buttons,
+    status,
+  };
 
   return (
     <Stage
@@ -185,7 +202,7 @@ const PongApp = props => {
       height={gameHeight}
       options={{ backgroundColor: boardColor }}
     >
-      <ConnectedPongContainer />
+      <PongContainer {...pongContainerProps} />
     </Stage>
   );
 };
