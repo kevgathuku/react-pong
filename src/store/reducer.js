@@ -51,6 +51,10 @@ const startButton = Object.assign({}, resumeButton, {
   text: 'START',
 });
 
+const restartButton = Object.assign({}, resumeButton, {
+  text: 'RESTART',
+});
+
 const BALL_DEFAULTS = {
   x: GAME_WIDTH / 2,
   y: GAME_HEIGHT / 2,
@@ -70,11 +74,13 @@ const initialState = {
   },
   ball: BALL_DEFAULTS,
   buttons: {
+    restart: restartButton,
     start: startButton,
     resume: resumeButton,
   },
   keysPressed: {},
   status: 'pre-start',
+  winner: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -82,29 +88,39 @@ const reducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.START_GAME:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         draftState.status = 'playing';
       });
     case ActionTypes.RESUME_GAME:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         draftState.status = 'playing';
       });
+    case ActionTypes.RESTART_GAME:
+      return produce(state, (draftState) => {
+        draftState.status = 'playing';
+        draftState.players = initialState.players;
+        draftState.winner = null;
+      });
     case ActionTypes.PAUSE_GAME:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         draftState.status = 'paused';
       });
+    case ActionTypes.GAME_OVER:
+      return produce(state, (draftState) => {
+        draftState.status = 'game-over';
+      });
     case ActionTypes.KEYPRESS:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         draftState.keysPressed[payload] = true;
       });
     case ActionTypes.KEY_UP:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         draftState.keysPressed[payload] = false;
       });
     case ActionTypes.MOVE_PADDLE_UP:
       if (state.status === 'paused') return state;
 
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         let { position } = payload;
         let player = draftState.players[position];
         // Decrease the Y value
@@ -117,7 +133,7 @@ const reducer = (state = initialState, action) => {
     case ActionTypes.MOVE_PADDLE_DOWN:
       if (state.status === 'paused') return state;
 
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         let { position } = payload;
         let player = draftState.players[position];
 
@@ -131,8 +147,9 @@ const reducer = (state = initialState, action) => {
       break;
     case ActionTypes.INCREMENT_SCORE:
       break;
+
     case ActionTypes.MOVE_BALL:
-      return produce(state, draftState => {
+      return produce(state, (draftState) => {
         const top_y = draftState.ball.y - draftState.ball.radius;
         const right_x = draftState.ball.x + draftState.ball.radius;
         const bottom_y = draftState.ball.y + draftState.ball.radius;
@@ -166,6 +183,11 @@ const reducer = (state = initialState, action) => {
 
           // score_against.play(); -> Play audio
           paddle2.score += 1;
+
+          // Game over
+          if (paddle2.score === 10) {
+            draftState.winner = paddle2;
+          }
         } // The player has scored
         else if (draftState.ball.x > draftState.gameWidth) {
           draftState.ball.x_speed = -5; // Serve the ball to the player
@@ -174,6 +196,11 @@ const reducer = (state = initialState, action) => {
           draftState.ball.y = BALL_DEFAULTS.y;
           // score_for.play(); -> Play audio
           paddle1.score += 1;
+
+          // Game over
+          if (paddle1.score === 10) {
+            draftState.winner = paddle1;
+          }
         }
 
         // If the ball is in the left half of the table

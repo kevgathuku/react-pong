@@ -15,8 +15,10 @@ import {
   keyUp,
   pauseGame,
   resumeGame,
+  restartGame,
   movePaddleDown,
   movePaddleUp,
+  gameOver,
 } from './store/actions';
 
 const PongContainer = withPixiApp(
@@ -33,6 +35,17 @@ const PongContainer = withPixiApp(
     componentDidMount() {
       window.addEventListener('keydown', this.onKeyDown);
       window.addEventListener('keyup', this.onKeyUp);
+    }
+
+    componentDidUpdate(prevProps) {
+      const { dispatch } = this.props;
+      if (this.props.winner !== prevProps.winner) {
+        // If the winner prop was previously empty, i.e. game in progress
+        if (prevProps.winner === null) {
+          dispatch(gameOver());
+          this.props.app.ticker.remove(this.tick);
+        }
+      }
     }
 
     componentWillUnmount() {
@@ -100,13 +113,22 @@ const PongContainer = withPixiApp(
       dispatch(resumeGame());
     };
 
+    restartGame = () => {
+      const { dispatch } = this.props;
+      // Restart the ticker
+      this.props.app.ticker.add(this.tick);
+      dispatch(restartGame());
+    };
+
     tick = () => {
       const { dispatch } = this.props;
-      dispatch(moveBall());
+      if (!this.props.winner) {
+        dispatch(moveBall());
+      }
     };
 
     render() {
-      const { players, status, gameWidth, buttons, ball } = this.props;
+      const { players, status, gameWidth, buttons, ball, winner } = this.props;
 
       return (
         <Container>
@@ -166,6 +188,32 @@ const PongContainer = withPixiApp(
             </>
           ) : null}
           {status === 'playing' ? <Ball data={ball} /> : null}
+          {status === 'game-over' ? (
+            <>
+              <Text
+                text={
+                  winner.position === 'left' ? 'Player 1 Wins' : 'Player 2 Wins'
+                }
+                anchor={0.5}
+                x={gameWidth / 2}
+                y={50}
+                isSprite
+                style={
+                  new PIXI.TextStyle({
+                    align: 'center',
+                    fontFamily: 'Futura, sans-serif',
+                    fontSize: 40,
+                    fill: '#ffffff',
+                    letterSpacing: 10,
+                  })
+                }
+              />
+              <Button
+                data={buttons.restart}
+                action={() => this.restartGame()}
+              />
+            </>
+          ) : null}
         </Container>
       );
     }
@@ -186,6 +234,7 @@ export const PongApp = (props) => {
     buttons,
     status,
     ball,
+    winner,
   } = props;
 
   const pongContainerProps = {
@@ -197,6 +246,7 @@ export const PongApp = (props) => {
     buttons,
     status,
     ball,
+    winner,
   };
 
   return (

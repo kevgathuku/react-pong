@@ -10,12 +10,12 @@ export const keyUp = (key = null) => ({
   payload: key,
 });
 
-export const movePaddleDown = position => ({
+export const movePaddleDown = (position) => ({
   type: ActionTypes.MOVE_PADDLE_DOWN,
   payload: { position },
 });
 
-export const movePaddleUp = position => ({
+export const movePaddleUp = (position) => ({
   type: ActionTypes.MOVE_PADDLE_UP,
   payload: { position },
 });
@@ -28,13 +28,21 @@ export const pauseGame = () => ({
   type: ActionTypes.PAUSE_GAME,
 });
 
+export const gameOver = () => ({
+  type: ActionTypes.GAME_OVER,
+});
+
 export const resumeGame = () => ({
   type: ActionTypes.RESUME_GAME,
 });
 
+export const restartGame = () => ({
+  type: ActionTypes.RESTART_GAME,
+});
+
 export const moveBall = () => ({ type: ActionTypes.MOVE_BALL });
 
-export const setBallPosition = position => ({
+export const setBallPosition = (position) => ({
   type: ActionTypes.SET_BALL_POSITION,
   payload: {
     x: position.x,
