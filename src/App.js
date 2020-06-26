@@ -48,7 +48,7 @@ const PongContainer = withPixiApp(
       this.middleY = props.gameHeight / 2;
     }
 
-    onKeyDown = event => {
+    onKeyDown = (event) => {
       const { dispatch } = this.props;
 
       switch (event.keyCode) {
@@ -66,13 +66,21 @@ const PongContainer = withPixiApp(
           // Move the left paddle down
           dispatch(movePaddleDown('left'));
           break;
+        case 38: // Arrow Up Key
+          // Move the left paddle up
+          dispatch(movePaddleUp('right'));
+          break;
+        case 40: //Arrow down key
+          // Move the left paddle down
+          dispatch(movePaddleDown('right'));
+          break;
         default:
           console.log('Key', event);
           return; // Do nothing
       }
     };
 
-    onKeyUp = event => {
+    onKeyUp = (event) => {
       const { dispatch } = this.props;
 
       dispatch(keyUp(event.key));
@@ -164,11 +172,11 @@ const PongContainer = withPixiApp(
   }
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return state;
 };
 
-export const PongApp = props => {
+export const PongApp = (props) => {
   const {
     boardColor,
     gameWidth,
