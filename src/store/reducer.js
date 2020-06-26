@@ -81,6 +81,7 @@ const initialState = {
   keysPressed: {},
   status: 'pre-start',
   winner: null,
+  winningScore: 5,
 };
 
 const reducer = (state = initialState, action) => {
@@ -185,7 +186,7 @@ const reducer = (state = initialState, action) => {
           paddle2.score += 1;
 
           // Game over
-          if (paddle2.score === 10) {
+          if (paddle2.score === draftState.winningScore) {
             draftState.winner = paddle2;
           }
         } // The player has scored
@@ -198,7 +199,7 @@ const reducer = (state = initialState, action) => {
           paddle1.score += 1;
 
           // Game over
-          if (paddle1.score === 10) {
+          if (paddle1.score === draftState.winningScore) {
             draftState.winner = paddle1;
           }
         }
