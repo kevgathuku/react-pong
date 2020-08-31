@@ -1,5 +1,3 @@
-import { ActionTypes } from './types';
-
 export type Action =
   | {
       type: 'KEYPRESS';
@@ -52,47 +50,47 @@ export type Action =
       };
     };
 
-export const keyPress = (key = null) => ({
-  type: ActionTypes.KEYPRESS,
+export const keyPress = (key: string): Action => ({
+  type: 'KEYPRESS',
   payload: key,
 });
 
-export const keyUp = (key = null) => ({
-  type: ActionTypes.KEY_UP,
+export const keyUp = (key: string): Action => ({
+  type: 'KEY_UP',
   payload: key,
 });
 
-export const movePaddleDown = (position: string) => ({
-  type: ActionTypes.MOVE_PADDLE_DOWN,
+export const movePaddleDown = (position: string): Action => ({
+  type: 'MOVE_PADDLE_DOWN',
   payload: { position },
 });
 
-export const movePaddleUp = (position: string) => ({
-  type: ActionTypes.MOVE_PADDLE_UP,
+export const movePaddleUp = (position: string): Action => ({
+  type: 'MOVE_PADDLE_UP',
   payload: { position },
 });
 
-export const startGame = () => ({
-  type: ActionTypes.START_GAME,
+export const startGame = (): Action => ({
+  type: 'START_GAME',
 });
 
-export const pauseGame = () => ({
-  type: ActionTypes.PAUSE_GAME,
+export const pauseGame = (): Action => ({
+  type: 'PAUSE_GAME',
 });
 
-export const gameOver = () => ({
-  type: ActionTypes.GAME_OVER,
+export const gameOver = (): Action => ({
+  type: 'GAME_OVER',
 });
 
-export const resumeGame = () => ({
-  type: ActionTypes.RESUME_GAME,
+export const resumeGame = (): Action => ({
+  type: 'RESUME_GAME',
 });
 
-export const restartGame = () => ({
-  type: ActionTypes.RESTART_GAME,
+export const restartGame = (): Action => ({
+  type: 'RESTART_GAME',
 });
 
-export const moveBall = () => ({ type: ActionTypes.MOVE_BALL });
+export const moveBall = (): Action => ({ type: 'MOVE_BALL' });
 
 export const setBallPosition = (position: {
   x: number;
@@ -100,7 +98,7 @@ export const setBallPosition = (position: {
   x_speed: number;
   y_speed: number;
 }) => ({
-  type: ActionTypes.SET_BALL_POSITION,
+  type: 'SET_BALL_POSITION',
   payload: {
     x: position.x,
     y: position.y,

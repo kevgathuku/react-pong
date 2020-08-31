@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Dispatch } from 'react';
 
 import * as PIXI from 'pixi.js';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Stage, Container, Text, withPixiApp } from '@inlet/react-pixi';
 
@@ -20,24 +19,47 @@ import {
   movePaddleUp,
   gameOver,
 } from './store/actions';
+import { Action } from './store/actions';
+import { AppState, BallProps, ButtonProps, PaddleProps } from './store/reducer';
+
+type Props = {
+  app: PIXI.Application;
+  dispatch: Dispatch<Action>;
+  gameWidth: number;
+  gameHeight: number;
+  boardColor: number;
+  buttons: {
+    start: ButtonProps;
+    restart: ButtonProps;
+    resume: ButtonProps;
+  };
+  players: {
+    left: PaddleProps;
+    right: PaddleProps;
+    [left: string]: PaddleProps;
+  };
+  winner: PaddleProps | null;
+  ball: BallProps;
+  status: string;
+};
 
 const PongContainer = withPixiApp(
-  class extends Component {
-    static propTypes = {
-      dispatch: PropTypes.func.isRequired,
-      players: PropTypes.object.isRequired,
-      gameWidth: PropTypes.number.isRequired,
-      gameHeight: PropTypes.number.isRequired,
-      boardColor: PropTypes.number.isRequired,
-      buttons: PropTypes.object.isRequired,
-    };
+  class extends Component<Props> {
+    // static propTypes = {
+    //   dispatch: PropTypes.func.isRequired,
+    //   players: PropTypes.object.isRequired,
+    //   gameWidth: PropTypes.number.isRequired,
+    //   gameHeight: PropTypes.number.isRequired,
+    //   boardColor: PropTypes.number.isRequired,
+    //   buttons: PropTypes.object.isRequired,
+    // };
 
     componentDidMount() {
       window.addEventListener('keydown', this.onKeyDown);
       window.addEventListener('keyup', this.onKeyUp);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
       const { dispatch } = this.props;
       if (this.props.winner !== prevProps.winner) {
         // If the winner prop was previously empty, i.e. game in progress
@@ -54,14 +76,7 @@ const PongContainer = withPixiApp(
       this.props.app.ticker.remove(this.tick);
     }
 
-    constructor(props) {
-      super(props);
-
-      this.middleX = props.gameWidth / 2;
-      this.middleY = props.gameHeight / 2;
-    }
-
-    onKeyDown = (event) => {
+    onKeyDown = (event: KeyboardEvent) => {
       const { dispatch } = this.props;
 
       switch (event.keyCode) {
@@ -93,7 +108,7 @@ const PongContainer = withPixiApp(
       }
     };
 
-    onKeyUp = (event) => {
+    onKeyUp = (event: KeyboardEvent) => {
       const { dispatch } = this.props;
 
       dispatch(keyUp(event.key));
@@ -133,7 +148,7 @@ const PongContainer = withPixiApp(
       return (
         <Container>
           <Text
-            text={players.left.score}
+            text={players.left.score.toString()}
             anchor={0.5}
             x={gameWidth / 4}
             y={150}
@@ -146,7 +161,7 @@ const PongContainer = withPixiApp(
             }
           />
           <Text
-            text={players.right.score}
+            text={players.right.score.toString()}
             anchor={0.5}
             x={(gameWidth / 4) * 3}
             y={150}
@@ -192,7 +207,11 @@ const PongContainer = withPixiApp(
             <>
               <Text
                 text={
-                  winner.position === 'left' ? 'Player 1 Wins' : 'Player 2 Wins'
+                  winner
+                    ? winner.position === 'left'
+                      ? 'Player 1 Wins'
+                      : 'Player 2 Wins'
+                    : ''
                 }
                 anchor={0.5}
                 x={gameWidth / 2}
@@ -220,11 +239,11 @@ const PongContainer = withPixiApp(
   }
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppState) => {
   return state;
 };
 
-export const PongApp = (props) => {
+export const PongApp = (props: Props) => {
   const {
     boardColor,
     gameWidth,

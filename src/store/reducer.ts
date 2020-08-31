@@ -10,7 +10,7 @@ const PADDLE_OFFSET_X = 20;
 const PADDLE_OFFSET_Y = 50;
 const PADDLE_SPEED = 20;
 
-type ButtonProps = {
+export type ButtonProps = {
   x: number;
   y: number;
   top_x: number;
@@ -18,7 +18,7 @@ type ButtonProps = {
   text: string;
 };
 
-type paddleProps = {
+export type PaddleProps = {
   controller: string;
   position: string;
   x: number;
@@ -28,7 +28,7 @@ type paddleProps = {
   score: number;
 };
 
-type BallProps = {
+export type BallProps = {
   x: number;
   y: number;
   radius: number;
@@ -36,15 +36,15 @@ type BallProps = {
   y_speed: number;
 };
 
-type AppState = {
+export type AppState = {
   boardColor: number;
   gameWidth: number;
   gameHeight: number;
   velocity: number;
   players: {
-    left: paddleProps;
-    right: paddleProps;
-    [left: string]: paddleProps;
+    left: PaddleProps;
+    right: PaddleProps;
+    [left: string]: PaddleProps;
   };
   ball: BallProps;
   buttons: {
@@ -56,7 +56,7 @@ type AppState = {
     [key: string]: boolean;
   };
   status: string;
-  winner: paddleProps | null;
+  winner: PaddleProps | null;
   winningScore: number;
 };
 
