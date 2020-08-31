@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { ActionTypes } from './types';
+import { Action } from './actions';
 
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 700;
@@ -9,6 +9,56 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_OFFSET_X = 20;
 const PADDLE_OFFSET_Y = 50;
 const PADDLE_SPEED = 20;
+
+type ButtonProps = {
+  x: number;
+  y: number;
+  top_x: number;
+  top_y: number;
+  text: string;
+};
+
+type paddleProps = {
+  controller: string;
+  position: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  score: number;
+};
+
+type BallProps = {
+  x: number;
+  y: number;
+  radius: number;
+  x_speed: number;
+  y_speed: number;
+};
+
+type AppState = {
+  boardColor: number;
+  gameWidth: number;
+  gameHeight: number;
+  velocity: number;
+  players: {
+    left: paddleProps;
+    right: paddleProps;
+    [left: string]: paddleProps;
+  };
+  ball: BallProps;
+  buttons: {
+    restart: ButtonProps;
+    start: ButtonProps;
+    resume: ButtonProps;
+  };
+  keysPressed: {
+    [key: string]: boolean;
+  };
+  status: string;
+  winner: paddleProps | null;
+  winningScore: number;
+};
 
 const randomDirection = () => {
   let direction = Math.random();
@@ -84,72 +134,70 @@ const initialState = {
   winningScore: 5,
 };
 
-const reducer = (state = initialState, action) => {
-  const { velocity } = state;
-  const { type, payload } = action;
-  switch (type) {
-    case ActionTypes.START_GAME:
+const reducer = (state: AppState = initialState, action: Action): AppState => {
+  switch (action.type) {
+    case 'START_GAME':
       return produce(state, (draftState) => {
         draftState.status = 'playing';
       });
-    case ActionTypes.RESUME_GAME:
+    case 'RESUME_GAME':
       return produce(state, (draftState) => {
         draftState.status = 'playing';
       });
-    case ActionTypes.RESTART_GAME:
+    case 'RESTART_GAME':
       return produce(state, (draftState) => {
         draftState.status = 'playing';
         draftState.players = initialState.players;
         draftState.winner = null;
       });
-    case ActionTypes.PAUSE_GAME:
+    case 'PAUSE_GAME':
       return produce(state, (draftState) => {
         draftState.status = 'paused';
       });
-    case ActionTypes.GAME_OVER:
+    case 'GAME_OVER':
       return produce(state, (draftState) => {
         draftState.status = 'game-over';
       });
-    case ActionTypes.KEYPRESS:
+    case 'KEYPRESS':
       return produce(state, (draftState) => {
-        draftState.keysPressed[payload] = true;
+        draftState.keysPressed[action.payload] = true;
       });
-    case ActionTypes.KEY_UP:
+    case 'KEY_UP':
       return produce(state, (draftState) => {
-        draftState.keysPressed[payload] = false;
+        draftState.keysPressed[action.payload] = false;
       });
-    case ActionTypes.MOVE_PADDLE_UP:
+    case 'MOVE_PADDLE_UP':
       if (state.status === 'paused') return state;
 
-      return produce(state, (draftState) => {
-        let { position } = payload;
+      return produce(state, (draftState: AppState) => {
+        let { position } = action.payload;
         let player = draftState.players[position];
         // Decrease the Y value
-        player.y -= velocity;
+        player.y -= draftState.velocity;
         // Top of the board
         if (player.y < 0) {
           player.y = 0;
         }
       });
-    case ActionTypes.MOVE_PADDLE_DOWN:
+    case 'MOVE_PADDLE_DOWN':
       if (state.status === 'paused') return state;
 
-      return produce(state, (draftState) => {
-        let { position } = payload;
+      return produce(state, (draftState: AppState) => {
+        let { position } = action.payload;
         let player = draftState.players[position];
 
-        player.y += velocity;
+        player.y += draftState.velocity;
         // Bottom of the board
         if (player.y + PADDLE_HEIGHT > GAME_HEIGHT) {
           player.y = GAME_HEIGHT - PADDLE_HEIGHT;
         }
       });
-    case ActionTypes.SET_BALL_POSITION:
-      break;
-    case ActionTypes.INCREMENT_SCORE:
-      break;
+    case 'SET_BALL_POSITION':
+      return state;
+    case 'INCREMENT_SCORE':
+      return state;
 
-    case ActionTypes.MOVE_BALL:
+    case 'MOVE_BALL':
       return produce(state, (draftState) => {
         const top_y = draftState.ball.y - draftState.ball.radius;
         const right_x = draftState.ball.x + draftState.ball.radius;
@@ -246,5 +294,7 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export type RootState = ReturnType<typeof reducer>;
 
 export default reducer;
