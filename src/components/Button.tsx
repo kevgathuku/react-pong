@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import * as PIXI from 'pixi.js';
 import { Text, Graphics, Container } from '@inlet/react-pixi';
-import PropTypes from 'prop-types';
 
-Button.propTypes = {
-  action: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+type Props = {
+  data: {
+    x: number;
+    top_x: number;
+    y: number;
+    top_y: number;
+    text: string;
+  };
+  action(): void;
 };
 
-export default function Button(props) {
+export default function Button(props: Props) {
   const {
     data: { x, y, top_x, top_y, text },
   } = props;
+
+  const draw = useCallback(
+    (g) => {
+      g.clear();
+      g.lineStyle(2, 0xfffff, 1);
+      g.drawRect(top_x, top_y, 250, 100);
+    },
+    [top_x, top_y]
+  );
 
   return (
     <Container
@@ -38,13 +52,7 @@ export default function Button(props) {
           })
         }
       />
-      <Graphics
-        preventRedraw
-        draw={g => {
-          g.lineStyle(2, 0xfffff, 1);
-          g.drawRect(top_x, top_y, 250, 100);
-        }}
-      />
+      <Graphics draw={draw} />
     </Container>
   );
 }
