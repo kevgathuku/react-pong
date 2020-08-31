@@ -1,19 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Graphics } from '@inlet/react-pixi';
 
-Paddle.propTypes = {
-  player: PropTypes.object.isRequired,
+type Props = {
+  player: {
+    x: number;
+    y: number;
+    position: string;
+    width: number;
+    height: number;
+  };
 };
 
-function Paddle(props) {
+function Paddle(props: Props) {
   const {
     player: { x, y, position, width, height },
   } = props;
 
   return (
     <Graphics
-      draw={g => {
+      draw={(g) => {
         // clear the graphics
         g.clear();
         // start drawing
