@@ -13,7 +13,6 @@
     "immer": "^6.0.2",
     "node-sass": "^4.13.1",
     "pixi.js": "^5.3.0",
-    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",

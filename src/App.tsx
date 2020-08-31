@@ -45,15 +45,6 @@ type Props = {
 
 const PongContainer = withPixiApp(
   class extends Component<Props> {
-    // static propTypes = {
-    //   dispatch: PropTypes.func.isRequired,
-    //   players: PropTypes.object.isRequired,
-    //   gameWidth: PropTypes.number.isRequired,
-    //   gameHeight: PropTypes.number.isRequired,
-    //   boardColor: PropTypes.number.isRequired,
-    //   buttons: PropTypes.object.isRequired,
-    // };
-
     componentDidMount() {
       window.addEventListener('keydown', this.onKeyDown);
       window.addEventListener('keyup', this.onKeyUp);
