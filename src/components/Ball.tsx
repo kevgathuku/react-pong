@@ -1,19 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Graphics } from '@inlet/react-pixi';
 
-Ball.propTypes = {
-  data: PropTypes.object.isRequired,
+type Props = {
+  data: {
+    x: number;
+    y: number;
+    radius: number;
+  };
 };
 
-export default function Ball(props) {
+export default function Ball(props: Props) {
   const {
     data: { x, y, radius },
   } = props;
 
   return (
     <Graphics
-      draw={g => {
+      draw={(g) => {
         // clear the graphics
         g.clear();
         // start drawing
