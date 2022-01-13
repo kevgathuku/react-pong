@@ -42,7 +42,6 @@
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/preset-create-react-app": "^2.1.1",
-    "@storybook/react": "^5.3.18",
-    "redux-devtools": "^3.5.0"
+    "@storybook/react": "^5.3.18"
   }
 }
