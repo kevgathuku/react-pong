@@ -6,7 +6,6 @@ import * as serviceWorker from "./serviceWorker";
 import gameReducer from "./store/reducer";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-require("bulma");
 
 const store = createStore(
   gameReducer,
