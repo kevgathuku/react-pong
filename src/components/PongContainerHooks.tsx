@@ -68,26 +68,26 @@ export default function PongContainer({
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
-    switch (event.keyCode) {
-      case 27:
+    switch (event.code) {
+      case "Escape":
         // ESC - Pause the game
         dispatch(pauseGame());
         app.ticker.remove(tick);
         break;
 
-      case 65: // A
+      case "KeyA": // A
         // Move the left paddle up
         dispatch(movePaddleUp("left"));
         break;
-      case 90: // Z
+      case "KeyZ": // Z
         // Move the left paddle down
         dispatch(movePaddleDown("left"));
         break;
-      case 38: // Arrow Up Key
+      case "ArrowUp": // Arrow Up Key
         // Move the left paddle up
         dispatch(movePaddleUp("right"));
         break;
-      case 40: //Arrow down key
+      case "ArrowDown": //Arrow down key
         // Move the left paddle down
         dispatch(movePaddleDown("right"));
         break;
