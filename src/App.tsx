@@ -7,7 +7,7 @@ import { Stage, } from '@inlet/react-pixi';
 import './App.css';
 
 import Instructions from './components/Instructions';
-import PongContainer from './components/PongContainerHooks';
+import PongContainer from './components/PongContainer';
 import { Action } from './store/actions';
 import { AppState, BallProps, ButtonProps, PaddleProps } from './store/reducer';
 
