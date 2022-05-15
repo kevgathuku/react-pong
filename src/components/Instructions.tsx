@@ -12,7 +12,7 @@ export default function Instructions() {
       <p>The first player to reach a score of 5 wins</p>
       <p>Enjoy the game!</p>
 
-      <p>
+      <div style={{padding: '15px 0 '}}>
         <details>
           <summary>Future Features 🙂</summary>
           <p>
@@ -24,8 +24,8 @@ export default function Instructions() {
             Multi-user functionality coming soon sometime in the future 😅 😅
           </p>
         </details>
-      </p>
-      <p>
+      </div>
+      <div>
         <details>
           <summary>Tech Stack 💻</summary>
           <ul>
@@ -36,7 +36,7 @@ export default function Instructions() {
             <li> Vercel</li>
           </ul>
         </details>
-      </p>
+      </div>
     </div>
   );
 }
