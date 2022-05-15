@@ -1,11 +1,6 @@
 import React, { Dispatch, useEffect } from "react";
 import * as PIXI from "pixi.js";
-import {
-  Container,
-  Text,
-  useApp,
-  useTick,
-} from "@inlet/react-pixi";
+import { Container, Text, useApp, useTick } from "@inlet/react-pixi";
 
 import Ball from "./Ball";
 import Button from "./Button";
@@ -105,7 +100,7 @@ export default function PongContainer({
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
       app.ticker.remove(tick);
-    }
+    };
   });
 
   const cResumeGame = () => {
@@ -164,7 +159,7 @@ export default function PongContainer({
       />
       <Paddle player={players.left} />
       <Paddle player={players.right} />
-      {status === "pre-start" ? (
+      {status === "pre-start" && (
         <>
           <Text
             text="PONG!"
@@ -184,15 +179,15 @@ export default function PongContainer({
           />
           <Button data={buttons.start} action={() => start()} />
         </>
-      ) : null}
-      {status === "paused" ? (
+      )}
+      {status === "paused" && (
         <>
           <Button data={buttons.resume} action={cResumeGame} />
           <Ball data={ball} />
         </>
-      ) : null}
-      {status === "playing" ? <Ball data={ball} /> : null}
-      {status === "game-over" ? (
+      )}
+      {status === "playing" && <Ball data={ball} />}
+      {status === "game-over" && (
         <>
           <Text
             text={
@@ -218,7 +213,7 @@ export default function PongContainer({
           />
           <Button data={buttons.restart} action={() => cRestartGame()} />
         </>
-      ) : null}
+      )}
     </Container>
   );
 }
