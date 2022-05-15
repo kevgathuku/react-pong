@@ -14,14 +14,11 @@ export default function Instructions() {
 
       <div style={{padding: '15px 0 '}}>
         <details>
-          <summary>Future Features 🙂</summary>
+          <summary> Caveats ⏸</summary>
           <p>
             This only supports playing from one browser at a time. i.e. for 2
             players to play the same game, they would have to be on the same
             computer using the same keyboard
-          </p>
-          <p>
-            Multi-user functionality coming soon sometime in the future 😅 😅
           </p>
         </details>
       </div>
