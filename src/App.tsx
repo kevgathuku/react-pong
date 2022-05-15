@@ -263,7 +263,7 @@ export const PongApp = (props: Props) => {
     <Stage
       width={gameWidth}
       height={gameHeight}
-      options={{ backgroundColor: boardColor }}
+      options={{ autoDensity: true, backgroundColor: boardColor }}
     >
       <PongContainer {...pongContainerProps} />
     </Stage>
