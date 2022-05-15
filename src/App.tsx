@@ -7,7 +7,7 @@ import { Stage, } from '@inlet/react-pixi';
 import './App.css';
 
 import Instructions from './components/Instructions';
-import PongContainer from './components/PongContainer';
+import PongContainer from './components/PongContainerHooks';
 import { Action } from './store/actions';
 import { AppState, BallProps, ButtonProps, PaddleProps } from './store/reducer';
 
@@ -38,26 +38,26 @@ const mapStateToProps = (state: AppState) => {
 
 export const PongApp = (props: Props) => {
   const {
-    boardColor,
-    gameWidth,
-    gameHeight,
-    dispatch,
-    players,
-    buttons,
-    status,
     ball,
+    boardColor,
+    buttons,
+    dispatch,
+    gameHeight,
+    gameWidth,
+    players,
+    status,
     winner,
   } = props;
 
   const pongContainerProps = {
-    dispatch,
-    players,
-    gameWidth,
-    gameHeight,
+    ball,
     boardColor,
     buttons,
+    dispatch,
+    gameHeight,
+    gameWidth,
+    players,
     status,
-    ball,
     winner,
   };
 
