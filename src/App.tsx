@@ -8,6 +8,7 @@ import './App.css';
 import Ball from './components/Ball';
 import Button from './components/Button';
 import Paddle from './components/Paddle';
+import Instructions from './components/Instructions';
 import {
   startGame,
   moveBall,
@@ -260,6 +261,7 @@ export const PongApp = (props: Props) => {
   };
 
   return (
+    <div className="appContainer">
     <Stage
       width={gameWidth}
       height={gameHeight}
@@ -267,6 +269,8 @@ export const PongApp = (props: Props) => {
     >
       <PongContainer {...pongContainerProps} />
     </Stage>
+    <Instructions />
+    </div>
   );
 };
 
