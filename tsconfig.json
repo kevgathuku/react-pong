@@ -24,7 +24,8 @@
         "node_modules/resource-loader/typings/mini-signals.d.ts"
       ]
     },
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "incremental": true
   },
   "include": [
     "src"
