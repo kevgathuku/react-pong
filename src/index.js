@@ -2,19 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import CounterApp from "./CounterApp";
 import * as serviceWorker from "./serviceWorker";
-import gameReducer from "./store/reducer";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
+import store from "./app/store";
 
-const store = createStore(
-  gameReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import { Provider } from "react-redux";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <CounterApp />
   </Provider>,
   document.getElementById("root")
 );
