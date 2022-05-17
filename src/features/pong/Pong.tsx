@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from "react";
+import React, { useEffect } from "react";
 import * as PIXI from "pixi.js";
 import { Container, Text, useApp, useTick } from "@inlet/react-pixi";
 
@@ -8,49 +8,20 @@ import Paddle from "./Paddle";
 
 import {
   startGame,
-  moveBall,
-  keyUp,
   pauseGame,
   resumeGame,
+  endGame,
   restartGame,
-  movePaddleDown,
+  keyUp,
   movePaddleUp,
-  gameOver,
-  Action,
-} from "../store/actions";
+  movePaddleDown,
+  moveBall,
+} from "./pongSlice";
 
-import { BallProps, ButtonProps, PaddleProps } from "../store/reducer";
-
-type Props = {
-  dispatch: Dispatch<Action>;
-  gameWidth: number;
-  gameHeight: number;
-  boardColor: number;
-  buttons: {
-    start: ButtonProps;
-    restart: ButtonProps;
-    resume: ButtonProps;
-  };
-  players: {
-    left: PaddleProps;
-    right: PaddleProps;
-    [left: string]: PaddleProps;
-  };
-  winner: PaddleProps | null;
-  ball: BallProps;
-  status: string;
-};
-
-export default function PongContainer({
-  players,
-  status,
-  gameWidth,
-  buttons,
-  ball,
-  winner,
-  dispatch,
-}: Props) {
+export default function Pong(props) {
   const app = useApp();
+
+  const { winner, players, status, config, buttons, ball, dispatch } = props;
 
   const tick = () => {
     if (!winner) {
@@ -119,7 +90,7 @@ export default function PongContainer({
     if (!winner && status === "playing") {
       dispatch(moveBall());
     } else if (winner) {
-      dispatch(gameOver());
+      dispatch(endGame());
       app.ticker.remove(tick);
     }
   });
@@ -134,7 +105,7 @@ export default function PongContainer({
       <Text
         text={players.left.score.toString()}
         anchor={0.5}
-        x={gameWidth / 4}
+        x={config.width / 4}
         y={150}
         style={
           new PIXI.TextStyle({
@@ -147,7 +118,7 @@ export default function PongContainer({
       <Text
         text={players.right.score.toString()}
         anchor={0.5}
-        x={(gameWidth / 4) * 3}
+        x={(config.width / 4) * 3}
         y={150}
         style={
           new PIXI.TextStyle({
@@ -164,7 +135,7 @@ export default function PongContainer({
           <Text
             text="PONG!"
             anchor={0.5}
-            x={gameWidth / 2}
+            x={config.width / 2}
             y={50}
             isSprite
             style={
@@ -198,7 +169,7 @@ export default function PongContainer({
                 : ""
             }
             anchor={0.5}
-            x={gameWidth / 2}
+            x={config.width / 2}
             y={50}
             isSprite
             style={
