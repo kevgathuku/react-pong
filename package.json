@@ -16,16 +16,12 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.8",
-    "react-scripts": "5.0.1",
     "redux": "^4.0.5",
     "typescript": "^4.3.2"
   },
   "scripts": {
     "dev": "next dev",
-    "start": "react-scripts start",
     "build": "next build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
