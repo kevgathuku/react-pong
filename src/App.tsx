@@ -1,78 +1,52 @@
-import React, {  Dispatch } from 'react';
+import React from "react";
 
-import * as PIXI from 'pixi.js';
-import { connect } from 'react-redux';
-import { Stage, } from '@inlet/react-pixi';
+import { Stage } from "@inlet/react-pixi";
+import { useDispatch, useSelector } from "react-redux";
 
-import './App.css';
+import "./App.css";
+import {
+  selectWinner,
+  selectPlayers,
+  selectStatus,
+  selectConfig,
+  selectButtons,
+  selectBall,
+} from "./features/pong/pongSlice";
+import Instructions from "./components/Instructions";
+import Pong from "./features/pong/Pong";
 
-import Instructions from './components/Instructions';
-import PongContainer from './components/PongContainer';
-import { Action } from './store/actions';
-import { AppState, BallProps, ButtonProps, PaddleProps } from './store/reducer';
+export const PongApp = (props) => {
+  const dispatch = useDispatch();
 
-export type Props = {
-  app: PIXI.Application;
-  dispatch: Dispatch<Action>;
-  gameWidth: number;
-  gameHeight: number;
-  boardColor: number;
-  buttons: {
-    start: ButtonProps;
-    restart: ButtonProps;
-    resume: ButtonProps;
-  };
-  players: {
-    left: PaddleProps;
-    right: PaddleProps;
-    [left: string]: PaddleProps;
-  };
-  winner: PaddleProps | null;
-  ball: BallProps;
-  status: string;
-};
-
-const mapStateToProps = (state: AppState) => {
-  return state;
-};
-
-export const PongApp = (props: Props) => {
-  const {
-    ball,
-    boardColor,
-    buttons,
-    dispatch,
-    gameHeight,
-    gameWidth,
-    players,
-    status,
-    winner,
-  } = props;
+  const winner = useSelector(selectWinner);
+  const players = useSelector(selectPlayers);
+  const status = useSelector(selectStatus);
+  const config = useSelector(selectConfig);
+  const buttons = useSelector(selectButtons);
+  const ball = useSelector(selectBall);
 
   const pongContainerProps = {
     ball,
-    boardColor,
+    config,
     buttons,
-    dispatch,
-    gameHeight,
-    gameWidth,
     players,
     status,
     winner,
+    dispatch,
   };
 
   return (
     <div className="appContainer">
-    <Stage
-      width={gameWidth}
-      height={gameHeight}
-      options={{ autoDensity: true, backgroundColor: boardColor }}
-    >
-      <PongContainer {...pongContainerProps} />
-    </Stage>
-    <Instructions />
+      <Stage
+        width={config.width}
+        height={config.height}
+        options={{ autoDensity: true, backgroundColor: config.boardColor }}
+      >
+        <Pong {...pongContainerProps} />
+      </Stage>
+      <Instructions />
     </div>
   );
 };
 
-export default connect(mapStateToProps)(PongApp);
+export default PongApp;

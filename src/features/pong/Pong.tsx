@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import * as PIXI from "pixi.js";
 import { Container, Text, useApp, useTick } from "@inlet/react-pixi";
-import { useSelector, useDispatch } from "react-redux";
 
 import Ball from "./Ball";
 import Button from "./Button";
@@ -17,24 +16,12 @@ import {
   movePaddleUp,
   movePaddleDown,
   moveBall,
-  selectWinner,
-  selectPlayers,
-  selectStatus,
-  selectConfig,
-  selectButtons,
-  selectBall,
 } from "./pongSlice";
 
-export default function Pong() {
+export default function Pong(props) {
   const app = useApp();
-  const dispatch = useDispatch();
 
-  const winner = useSelector(selectWinner);
-  const players = useSelector(selectPlayers);
-  const status = useSelector(selectStatus);
-  const config = useSelector(selectConfig);
-  const buttons = useSelector(selectButtons);
-  const ball = useSelector(selectBall);
+  const { winner, players, status, config, buttons, ball, dispatch } = props;
 
   const tick = () => {
     if (!winner) {
