@@ -29,6 +29,8 @@ export type PaddleProps = {
   score: number;
 };
 
+type Status = "pre-start" | "game-over" | "paused" | "playing";
+
 export type BallProps = {
   x: number;
   y: number;
@@ -38,9 +40,11 @@ export type BallProps = {
 };
 
 export interface PongState {
-  boardColor: number;
-  gameWidth: number;
-  gameHeight: number;
+  config: {
+    boardColor: number;
+    width: number;
+    height: number;
+  };
   velocity: number;
   players: {
     left: PaddleProps;
@@ -56,7 +60,7 @@ export interface PongState {
   keysPressed: {
     [key: string]: boolean;
   };
-  status: string;
+  status: Status;
   winner: PaddleProps | null;
   winningScore: number;
 }
@@ -115,9 +119,11 @@ const BALL_DEFAULTS = {
 };
 
 const initialState: PongState = {
-  boardColor: 0x0d0c22,
-  gameWidth: GAME_WIDTH,
-  gameHeight: GAME_HEIGHT,
+  config: {
+    boardColor: 0x0d0c22,
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
+  },
   velocity: PADDLE_SPEED,
   players: {
     left: humanPaddle,
@@ -186,7 +192,7 @@ export const pongSlice = createSlice({
         player.y = GAME_HEIGHT - PADDLE_HEIGHT;
       }
     },
-    moveBall: (state, action) => {
+    moveBall: (state) => {
       const top_y = state.ball.y - state.ball.radius;
       const right_x = state.ball.x + state.ball.radius;
       const bottom_y = state.ball.y + state.ball.radius;
@@ -203,11 +209,8 @@ export const pongSlice = createSlice({
         state.ball.y = state.ball.radius; // Don't go beyond the boundary
         state.ball.y_speed = -state.ball.y_speed; // Reverse the direction
       } // Hitting the bottom boundary
-      else if (
-        state.ball.y + state.ball.radius >
-        state.gameHeight
-      ) {
-        state.ball.y = state.gameHeight - state.ball.radius; // Set the new position
+      else if (state.ball.y + state.ball.radius > state.config.height) {
+        state.ball.y = state.config.height - state.ball.radius; // Set the new position
         state.ball.y_speed = -state.ball.y_speed; // Reverse direction
       }
 
@@ -226,7 +229,7 @@ export const pongSlice = createSlice({
           state.winner = paddle2;
         }
       } // The player has scored
-      else if (state.ball.x > state.gameWidth) {
+      else if (state.ball.x > state.config.width) {
         state.ball.x_speed = -5; // Serve the ball to the player
         state.ball.y_speed = 3 * randomDirection();
         state.ball.x = BALL_DEFAULTS.x;
@@ -241,7 +244,7 @@ export const pongSlice = createSlice({
       }
 
       // If the ball is in the left half of the table
-      if (right_x < state.gameWidth / 2) {
+      if (right_x < state.config.width / 2) {
         // The ball has not yet passed the paddle
         // The ball has made contact with the paddle
         // The topmost side of the ball is in the range of the paddle
@@ -252,8 +255,7 @@ export const pongSlice = createSlice({
           top_y < paddle1.y + paddle1.height &&
           bottom_y > paddle1.y
         ) {
-          state.ball.x_speed =
-            Math.abs(state.ball.x_speed) + Math.random();
+          state.ball.x_speed = Math.abs(state.ball.x_speed) + Math.random();
           state.ball.y_speed += Math.random();
           state.ball.x += state.ball.x_speed;
           // Play audio
@@ -268,8 +270,7 @@ export const pongSlice = createSlice({
           top_y < paddle2.y + paddle2.height &&
           bottom_y > paddle2.y
         ) {
-          state.ball.x_speed =
-            -Math.abs(state.ball.x_speed) - Math.random();
+          state.ball.x_speed = -Math.abs(state.ball.x_speed) - Math.random();
           state.ball.y_speed += Math.random();
           state.ball.x += state.ball.x_speed;
           // Play audio
@@ -298,6 +299,16 @@ export const {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectCount = (state: AppState) => state.counter.value;
+export const selectWinner = (state: AppState) => state.pong.winner;
+
+export const selectStatus = (state: AppState) => state.pong.status;
+
+export const selectPlayers = (state: AppState) => state.pong.players;
+
+export const selectConfig = (state: AppState) => state.pong.config;
+
+export const selectButtons = (state: AppState) => state.pong.buttons;
+
+export const selectBall = (state: AppState) => state.pong.ball;
 
 export default pongSlice.reducer;
