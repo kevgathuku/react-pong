@@ -20,9 +20,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build": "next build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -32,15 +30,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "@storybook/addon-actions": "^6.4.22",
-    "@storybook/addon-links": "^6.4.22",
-    "@storybook/addons": "^6.4.22",
-    "@storybook/builder-webpack5": "^6.4.22",
-    "@storybook/manager-webpack5": "^6.4.22",
-    "@storybook/preset-create-react-app": "^4.1.0",
-    "@storybook/react": "^6.4.22",
-    "webpack": "^5.72.1"
-  }
+  ]
 }
