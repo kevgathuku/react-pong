@@ -1,3 +1,4 @@
+import "../src/index.css";
 import "../src/App.css";
 
 import type { AppProps } from "next/app";
