@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
-import pongReducer from "../features/pong/pongSlice"
+import pongReducer from "../features/pong/pongSlice";
+
 export function makeStore() {
   return configureStore({
     reducer: { counter: counterReducer, pong: pongReducer },
