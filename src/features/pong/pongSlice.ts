@@ -171,7 +171,7 @@ export const pongSlice = createSlice({
     movePaddleUp: (state, action) => {
       if (state.status === "paused") return state;
 
-      const { position } = action.payload;
+      const position = action.payload;
       const player = state.players[position];
       // Decrease the Y value
       player.y -= state.velocity;
@@ -183,7 +183,7 @@ export const pongSlice = createSlice({
     movePaddleDown: (state, action) => {
       if (state.status === "paused") return state;
 
-      const { position } = action.payload;
+      const position = action.payload;
       const player = state.players[position];
 
       player.y += state.velocity;
