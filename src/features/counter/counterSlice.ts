@@ -3,12 +3,19 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { AppState, AppThunk } from "../../app/store";
 import { fetchCount } from "./counterAPI";
 
+export interface CounterState {
+  value: number;
+  status: "idle" | "loading" | "failed";
+}
+
+const initialState: CounterState = {
+  value: 0,
+  status: "idle",
+};
+
 export const counterSlice = createSlice({
   name: "counter",
-  initialState: {
-    value: 0,
-    status: "idle",
-  },
+  initialState,
   reducers: {
     increment: (state) => {
       state.value += 1;
