@@ -2,8 +2,8 @@
   "name": "react-electron-bp",
   "sources": [
     {
-      "dir": "next",
-      "subdirs": true
+      "dir": "src",
+      "subdirs": ["rescript"]
     }
   ],
   "package-specs": [
