@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import * as PIXI from "pixi.js";
-import { Container, Text, useApp, useTick } from "@inlet/react-pixi";
+import { Container, Text, useApp, useTick } from "@pixi/react";
 
 import Ball from "./Ball";
 import Button from "./Button";
