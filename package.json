@@ -5,18 +5,21 @@
   "dependencies": {
     "@inlet/react-pixi": "^6.7.0",
     "@reduxjs/toolkit": "^1.8.1",
-    "@types/jest": "^26.0.10",
-    "@types/node": "^16.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-redux": "^7.1.9",
+    
     "next": "^12.1.6",
     "pixi.js": "6.0.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^8.0.1",
     "redux": "^4.2.0",
     "typescript": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "@types/node": "20.2.5",
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.4",
+    "@types/react-redux": "^7.1.9"
   },
   "scripts": {
     "dev": "next dev",
