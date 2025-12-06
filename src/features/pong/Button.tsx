@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import * as PIXI from 'pixi.js';
-import { Text, Graphics, Container } from '@inlet/react-pixi';
+import { Text, Graphics, Container } from '@pixi/react';
 
 type Props = {
   data: {
