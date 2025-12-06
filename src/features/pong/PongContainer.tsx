@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Stage } from "@inlet/react-pixi";
+import { Stage } from "@pixi/react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
